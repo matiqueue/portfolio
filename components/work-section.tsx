@@ -59,9 +59,9 @@ function getWaveOffset(rowIndex: number, visualColIndex: number, cols: number): 
   return row[visualColIndex % 2] ?? 0;
 }
 
-// Monochrome style for school, GitHub, and Konsola Operatorska so the opening milestones feel cohesive
-const MONO_BG = "from-neutral-800 to-neutral-950 dark:from-neutral-100 dark:to-neutral-300";
-const MONO_TEXT = "text-white dark:text-neutral-950";
+// Sleek dark monochrome style matching GitHub, Aven Mail, Rift Daily & Iron Routine (never bright white in dark mode)
+const MONO_BG = "from-[#27272a] via-[#18181b] to-[#09090b]";
+const MONO_TEXT = "text-white";
 
 function getFallbackIconMeta(iconType: WorkIconType): {
   icon: React.ReactNode;
@@ -222,7 +222,6 @@ function ProjectMedallion({
 
   // Real project/company logo icon - completely borderless & frame-free!
   if (experience.logo) {
-    const isTransparentCutout = experience.id === "granteam" || experience.id === "aven-mail";
     return (
       <div className={`relative ${boxSize} flex items-center justify-center`}>
         {/* Soft borderless fade mask behind the icon so SVG line dissolves smoothly */}
@@ -242,12 +241,8 @@ function ProjectMedallion({
         <img
           src={experience.logo}
           alt={experience.company}
-          className={`relative z-10 w-full h-full transition-transform duration-300 ${
+          className={`relative z-10 w-full h-full object-contain drop-shadow-[0_8px_16px_rgba(0,0,0,0.24)] transition-transform duration-300 ${
             isHovered ? "scale-110 -rotate-2" : "scale-100"
-          } ${
-            isTransparentCutout
-              ? "object-contain drop-shadow-[0_8px_16px_rgba(0,0,0,0.24)]"
-              : "object-cover rounded-[16px] drop-shadow-[0_8px_16px_rgba(0,0,0,0.24)]"
           }`}
         />
       </div>
@@ -265,7 +260,7 @@ function ProjectMedallion({
         }}
       />
       <div
-        className={`relative z-10 w-full h-full rounded-[16px] bg-gradient-to-br ${fallback.bg} ${fallback.text} flex items-center justify-center transition-transform duration-300 drop-shadow-[0_8px_16px_rgba(0,0,0,0.22)] ${
+        className={`relative z-10 w-full h-full rounded-[16px] bg-gradient-to-br ${fallback.bg} ${fallback.text} border border-white/[0.12] flex items-center justify-center transition-transform duration-300 drop-shadow-[0_8px_16px_rgba(0,0,0,0.22)] ${
           isHovered ? "scale-110 rotate-2" : "scale-100"
         }`}
       >
