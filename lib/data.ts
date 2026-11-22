@@ -35,9 +35,8 @@ import {
 export interface SkillItem {
   icon: ReactIconType;
   text: string;
-  colorClass: string;
-  tintClass: string;
-  borderClass: string;
+  color: string;
+  darkColor?: string;
 }
 
 export interface SkillCategory {
@@ -53,83 +52,17 @@ export const skillCategories: SkillCategory[] = [
     title: "Frontend, Mobile & Desktop",
     subtitle: "Nowoczesne interfejsy webowe, mobilne i natywne",
     items: [
-      {
-        icon: SiNextdotjs,
-        text: "Next.js",
-        colorClass: "text-neutral-900 dark:text-white",
-        tintClass: "bg-neutral-500/12",
-        borderClass: "group-hover/chip:border-neutral-500/40",
-      },
-      {
-        icon: SiReact,
-        text: "React",
-        colorClass: "text-[#087EA4] dark:text-[#61DAFB]",
-        tintClass: "bg-sky-500/15",
-        borderClass: "group-hover/chip:border-sky-400/50",
-      },
-      {
-        icon: SiTypescript,
-        text: "TypeScript",
-        colorClass: "text-[#3178C6]",
-        tintClass: "bg-blue-500/15",
-        borderClass: "group-hover/chip:border-blue-500/50",
-      },
-      {
-        icon: SiTailwindcss,
-        text: "Tailwind CSS",
-        colorClass: "text-[#06B6D4]",
-        tintClass: "bg-cyan-500/15",
-        borderClass: "group-hover/chip:border-cyan-400/50",
-      },
-      {
-        icon: SiExpo,
-        text: "Expo / RN",
-        colorClass: "text-neutral-900 dark:text-white",
-        tintClass: "bg-slate-500/12",
-        borderClass: "group-hover/chip:border-slate-400/50",
-      },
-      {
-        icon: SiTauri,
-        text: "Tauri",
-        colorClass: "text-[#D9820B] dark:text-[#FFC131]",
-        tintClass: "bg-amber-500/15",
-        borderClass: "group-hover/chip:border-amber-400/50",
-      },
-      {
-        icon: SiSwift,
-        text: "Swift",
-        colorClass: "text-[#F05138]",
-        tintClass: "bg-orange-500/15",
-        borderClass: "group-hover/chip:border-orange-500/50",
-      },
-      {
-        icon: SiRedux,
-        text: "Redux",
-        colorClass: "text-[#764ABC] dark:text-[#9D79E8]",
-        tintClass: "bg-purple-500/15",
-        borderClass: "group-hover/chip:border-purple-400/50",
-      },
-      {
-        icon: SiVite,
-        text: "Vite",
-        colorClass: "text-[#646CFF] dark:text-[#8E95FF]",
-        tintClass: "bg-indigo-500/15",
-        borderClass: "group-hover/chip:border-indigo-400/50",
-      },
-      {
-        icon: SiThreedotjs,
-        text: "Three.js",
-        colorClass: "text-neutral-900 dark:text-white",
-        tintClass: "bg-neutral-500/12",
-        borderClass: "group-hover/chip:border-neutral-400/50",
-      },
-      {
-        icon: SiFlutter,
-        text: "Flutter",
-        colorClass: "text-[#02569B] dark:text-[#54C5F8]",
-        tintClass: "bg-sky-500/15",
-        borderClass: "group-hover/chip:border-sky-400/50",
-      },
+      { icon: SiNextdotjs, text: "Next.js", color: "#111827", darkColor: "#ffffff" },
+      { icon: SiReact, text: "React", color: "#087EA4", darkColor: "#61DAFB" },
+      { icon: SiTypescript, text: "TypeScript", color: "#3178C6", darkColor: "#3B82F6" },
+      { icon: SiTailwindcss, text: "Tailwind CSS", color: "#06B6D4", darkColor: "#22D3EE" },
+      { icon: SiExpo, text: "Expo / RN", color: "#111827", darkColor: "#ffffff" },
+      { icon: SiTauri, text: "Tauri", color: "#FFC131" },
+      { icon: SiSwift, text: "Swift", color: "#F05138" },
+      { icon: SiRedux, text: "Redux", color: "#764ABC", darkColor: "#A78BFA" },
+      { icon: SiVite, text: "Vite", color: "#646CFF" },
+      { icon: SiThreedotjs, text: "Three.js", color: "#111827", darkColor: "#ffffff" },
+      { icon: SiFlutter, text: "Flutter", color: "#02569B", darkColor: "#54C5F8" },
     ],
   },
   {
@@ -137,69 +70,15 @@ export const skillCategories: SkillCategory[] = [
     title: "Backend & Data",
     subtitle: "Wydajne API, systemy i bazy SQL / NoSQL",
     items: [
-      {
-        icon: SiPython,
-        text: "Python",
-        colorClass: "text-[#3776AB] dark:text-[#FFD43B]",
-        tintClass: "bg-amber-500/15",
-        borderClass: "group-hover/chip:border-amber-400/50",
-      },
-      {
-        icon: SiDjango,
-        text: "Django",
-        colorClass: "text-[#092E20] dark:text-[#44B78B]",
-        tintClass: "bg-emerald-500/15",
-        borderClass: "group-hover/chip:border-emerald-400/50",
-      },
-      {
-        icon: SiRust,
-        text: "Rust",
-        colorClass: "text-[#CE412B] dark:text-[#F74C00]",
-        tintClass: "bg-orange-500/15",
-        borderClass: "group-hover/chip:border-orange-500/50",
-      },
-      {
-        icon: SiNodedotjs,
-        text: "Node.js",
-        colorClass: "text-[#339933] dark:text-[#5FA04E]",
-        tintClass: "bg-green-500/15",
-        borderClass: "group-hover/chip:border-green-500/50",
-      },
-      {
-        icon: SiExpress,
-        text: "Express",
-        colorClass: "text-neutral-800 dark:text-neutral-200",
-        tintClass: "bg-neutral-500/12",
-        borderClass: "group-hover/chip:border-neutral-400/50",
-      },
-      {
-        icon: SiPostgresql,
-        text: "PostgreSQL",
-        colorClass: "text-[#336791] dark:text-[#699ECA]",
-        tintClass: "bg-blue-500/15",
-        borderClass: "group-hover/chip:border-blue-400/50",
-      },
-      {
-        icon: SiMongodb,
-        text: "MongoDB",
-        colorClass: "text-[#47A248]",
-        tintClass: "bg-emerald-500/15",
-        borderClass: "group-hover/chip:border-emerald-500/50",
-      },
-      {
-        icon: SiPrisma,
-        text: "Prisma",
-        colorClass: "text-[#2D3748] dark:text-teal-300",
-        tintClass: "bg-teal-500/15",
-        borderClass: "group-hover/chip:border-teal-400/50",
-      },
-      {
-        icon: SiRedis,
-        text: "Redis",
-        colorClass: "text-[#DC382D] dark:text-[#FF5A4E]",
-        tintClass: "bg-red-500/15",
-        borderClass: "group-hover/chip:border-red-500/50",
-      },
+      { icon: SiPython, text: "Python", color: "#3776AB" },
+      { icon: SiDjango, text: "Django", color: "#0C4B33", darkColor: "#44B78B" },
+      { icon: SiRust, text: "Rust", color: "#CE412B", darkColor: "#F97316" },
+      { icon: SiNodedotjs, text: "Node.js", color: "#339933", darkColor: "#5FA04E" },
+      { icon: SiExpress, text: "Express", color: "#111827", darkColor: "#E5E7EB" },
+      { icon: SiPostgresql, text: "PostgreSQL", color: "#336791", darkColor: "#60A5FA" },
+      { icon: SiMongodb, text: "MongoDB", color: "#47A248", darkColor: "#4ADE80" },
+      { icon: SiPrisma, text: "Prisma", color: "#2D3748", darkColor: "#2DD4BF" },
+      { icon: SiRedis, text: "Redis", color: "#DC382D", darkColor: "#F87171" },
     ],
   },
   {
@@ -207,76 +86,16 @@ export const skillCategories: SkillCategory[] = [
     title: "Tools, DevOps & Cloud",
     subtitle: "Konteneryzacja, CI/CD, infrastruktura i design",
     items: [
-      {
-        icon: SiDocker,
-        text: "Docker",
-        colorClass: "text-[#2496ED]",
-        tintClass: "bg-sky-500/15",
-        borderClass: "group-hover/chip:border-sky-500/50",
-      },
-      {
-        icon: SiLinux,
-        text: "Linux",
-        colorClass: "text-[#C99100] dark:text-[#FCC624]",
-        tintClass: "bg-amber-500/15",
-        borderClass: "group-hover/chip:border-amber-400/50",
-      },
-      {
-        icon: SiGnubash,
-        text: "Bash",
-        colorClass: "text-[#4EAA25]",
-        tintClass: "bg-green-500/15",
-        borderClass: "group-hover/chip:border-green-500/50",
-      },
-      {
-        icon: SiGithubactions,
-        text: "GitHub Actions",
-        colorClass: "text-[#2088FF]",
-        tintClass: "bg-blue-500/15",
-        borderClass: "group-hover/chip:border-blue-400/50",
-      },
-      {
-        icon: SiCloudflare,
-        text: "Cloudflare",
-        colorClass: "text-[#F38020]",
-        tintClass: "bg-orange-500/15",
-        borderClass: "group-hover/chip:border-orange-400/50",
-      },
-      {
-        icon: SiNginx,
-        text: "Nginx",
-        colorClass: "text-[#009639]",
-        tintClass: "bg-emerald-500/15",
-        borderClass: "group-hover/chip:border-emerald-500/50",
-      },
-      {
-        icon: SiVercel,
-        text: "Vercel",
-        colorClass: "text-neutral-900 dark:text-white",
-        tintClass: "bg-neutral-500/12",
-        borderClass: "group-hover/chip:border-neutral-400/50",
-      },
-      {
-        icon: SiPostman,
-        text: "Postman",
-        colorClass: "text-[#FF6C37]",
-        tintClass: "bg-orange-500/15",
-        borderClass: "group-hover/chip:border-orange-500/50",
-      },
-      {
-        icon: SiFigma,
-        text: "Figma",
-        colorClass: "text-[#F24E1E]",
-        tintClass: "bg-rose-500/15",
-        borderClass: "group-hover/chip:border-rose-500/50",
-      },
-      {
-        icon: SiGit,
-        text: "Git",
-        colorClass: "text-[#F05032]",
-        tintClass: "bg-red-500/15",
-        borderClass: "group-hover/chip:border-red-500/50",
-      },
+      { icon: SiDocker, text: "Docker", color: "#2496ED", darkColor: "#38BDF8" },
+      { icon: SiLinux, text: "Linux", color: "#CA8A04", darkColor: "#FACC15" },
+      { icon: SiGnubash, text: "Bash", color: "#4EAA25", darkColor: "#4ADE80" },
+      { icon: SiGithubactions, text: "GitHub Actions", color: "#2088FF", darkColor: "#60A5FA" },
+      { icon: SiCloudflare, text: "Cloudflare", color: "#F38020", darkColor: "#FB923C" },
+      { icon: SiNginx, text: "Nginx", color: "#009639", darkColor: "#34D399" },
+      { icon: SiVercel, text: "Vercel", color: "#111827", darkColor: "#ffffff" },
+      { icon: SiPostman, text: "Postman", color: "#FF6C37", darkColor: "#FB923C" },
+      { icon: SiFigma, text: "Figma", color: "#F24E1E" },
+      { icon: SiGit, text: "Git", color: "#F05032", darkColor: "#F87171" },
     ],
   },
 ];
@@ -382,6 +201,7 @@ export const projects: Project[] = [
 export type WorkType = "school" | "project" | "job";
 export type WorkIconType =
   | "school"
+  | "shield"
   | "github"
   | "console"
   | "server"
@@ -501,6 +321,18 @@ export const workExperiences: WorkExperience[] = [
     link: "https://granteam.pl",
     linkLabel: "Odwiedź granteam.pl",
     iconType: "building",
+    isCurrent: true,
+  },
+  {
+    id: "uken",
+    type: "school",
+    company: "UKEN w Krakowie",
+    position: "Cyberbezpieczeństwo (studia inżynierskie)",
+    description:
+      "Studia inżynierskie na kierunku Cyberbezpieczeństwo na Uniwersytecie Komisji Edukacji Narodowej w Krakowie. Bezpieczeństwo sieci, systemów, kryptografia i bezpieczne projektowanie aplikacji.",
+    years: "2026 - 2030",
+    skills: ["Cyberbezpieczeństwo", "Sieci", "Kryptografia", "Linux"],
+    iconType: "shield",
     isCurrent: true,
   },
   {

@@ -11,6 +11,7 @@ import {
 import {
   Building2,
   GraduationCap,
+  ShieldCheck,
   ArrowUpRight,
   Briefcase,
   Terminal,
@@ -59,8 +60,8 @@ function getWaveOffset(rowIndex: number, visualColIndex: number, cols: number): 
   return row[visualColIndex % 2] ?? 0;
 }
 
-// Sleek dark monochrome style matching GitHub, Aven Mail, Rift Daily & Iron Routine (never bright white in dark mode)
-const MONO_BG = "from-[#27272a] via-[#18181b] to-[#09090b]";
+// Refined brushed metallic slate-graphite mono style (matches Aven Mail & Mate Chess luminosity, stands out clearly on both dark and light themes)
+const MONO_BG = "from-[#525866] via-[#343944] to-[#1f222a]";
 const MONO_TEXT = "text-white";
 
 function getFallbackIconMeta(iconType: WorkIconType): {
@@ -72,6 +73,12 @@ function getFallbackIconMeta(iconType: WorkIconType): {
     case "school":
       return {
         icon: <GraduationCap className="w-7 h-7" />,
+        bg: MONO_BG,
+        text: MONO_TEXT,
+      };
+    case "shield":
+      return {
+        icon: <ShieldCheck className="w-7 h-7" />,
         bg: MONO_BG,
         text: MONO_TEXT,
       };
@@ -260,7 +267,7 @@ function ProjectMedallion({
         }}
       />
       <div
-        className={`relative z-10 w-full h-full rounded-[16px] bg-gradient-to-br ${fallback.bg} ${fallback.text} border border-white/[0.12] flex items-center justify-center transition-transform duration-300 drop-shadow-[0_8px_16px_rgba(0,0,0,0.22)] ${
+        className={`relative z-10 w-full h-full rounded-[15px] bg-gradient-to-b ${fallback.bg} ${fallback.text} border border-white/20 shadow-[inset_0_1px_0_rgba(255,255,255,0.28)] flex items-center justify-center transition-transform duration-300 drop-shadow-[0_8px_16px_rgba(0,0,0,0.28)] ${
           isHovered ? "scale-110 rotate-2" : "scale-100"
         }`}
       >

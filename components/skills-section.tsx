@@ -73,7 +73,17 @@ function MultiColorTechIcon({ name, skill }: { name: string; skill: SkillItem })
       );
     default: {
       const Icon = skill.icon;
-      return <Icon className={`w-5 h-5 flex-shrink-0 ${skill.colorClass}`} />;
+      return (
+        <Icon
+          className="w-5 h-5 flex-shrink-0 tech-icon-color"
+          style={
+            {
+              "--tech-color": skill.color,
+              "--tech-color-dark": skill.darkColor ?? skill.color,
+            } as React.CSSProperties
+          }
+        />
+      );
     }
   }
 }
