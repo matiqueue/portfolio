@@ -31,6 +31,8 @@ import {
 export interface SkillItem {
   icon: ReactIconType;
   text: string;
+  colorClass: string;
+  tintClass: string;
 }
 
 export interface SkillCategory {
@@ -46,15 +48,60 @@ export const skillCategories: SkillCategory[] = [
     title: "Frontend & UI",
     subtitle: "Nowoczesne interfejsy webowe, mobilne i 3D",
     items: [
-      { icon: SiNextdotjs, text: "Next.js" },
-      { icon: SiReact, text: "React" },
-      { icon: SiTypescript, text: "TypeScript" },
-      { icon: SiTailwindcss, text: "Tailwind CSS" },
-      { icon: SiRedux, text: "Redux" },
-      { icon: SiVite, text: "Vite" },
-      { icon: SiThreedotjs, text: "Three.js" },
-      { icon: SiExpo, text: "Expo / RN" },
-      { icon: SiFlutter, text: "Flutter" },
+      {
+        icon: SiNextdotjs,
+        text: "Next.js",
+        colorClass: "text-neutral-900 dark:text-white",
+        tintClass: "bg-neutral-500/10",
+      },
+      {
+        icon: SiReact,
+        text: "React",
+        colorClass: "text-[#087EA4] dark:text-[#61DAFB]",
+        tintClass: "bg-sky-500/12",
+      },
+      {
+        icon: SiTypescript,
+        text: "TypeScript",
+        colorClass: "text-[#3178C6]",
+        tintClass: "bg-blue-500/12",
+      },
+      {
+        icon: SiTailwindcss,
+        text: "Tailwind CSS",
+        colorClass: "text-[#06B6D4]",
+        tintClass: "bg-cyan-500/12",
+      },
+      {
+        icon: SiRedux,
+        text: "Redux",
+        colorClass: "text-[#764ABC] dark:text-[#9D79E8]",
+        tintClass: "bg-purple-500/12",
+      },
+      {
+        icon: SiVite,
+        text: "Vite",
+        colorClass: "text-[#646CFF] dark:text-[#8E95FF]",
+        tintClass: "bg-indigo-500/12",
+      },
+      {
+        icon: SiThreedotjs,
+        text: "Three.js",
+        colorClass: "text-neutral-900 dark:text-white",
+        tintClass: "bg-neutral-500/10",
+      },
+      {
+        icon: SiExpo,
+        text: "Expo / RN",
+        colorClass: "text-neutral-900 dark:text-white",
+        tintClass: "bg-slate-500/12",
+      },
+      {
+        icon: SiFlutter,
+        text: "Flutter",
+        colorClass: "text-[#02569B] dark:text-[#54C5F8]",
+        tintClass: "bg-sky-500/12",
+      },
     ],
   },
   {
@@ -62,14 +109,54 @@ export const skillCategories: SkillCategory[] = [
     title: "Backend & Data",
     subtitle: "Wydajne API, bazy relacyjne i NoSQL",
     items: [
-      { icon: SiPython, text: "Python" },
-      { icon: SiDjango, text: "Django" },
-      { icon: SiNodedotjs, text: "Node.js" },
-      { icon: SiExpress, text: "Express" },
-      { icon: SiPostgresql, text: "PostgreSQL" },
-      { icon: SiMongodb, text: "MongoDB" },
-      { icon: SiPrisma, text: "Prisma" },
-      { icon: SiRedis, text: "Redis" },
+      {
+        icon: SiPython,
+        text: "Python",
+        colorClass: "text-[#3776AB] dark:text-[#FFD43B]",
+        tintClass: "bg-amber-500/12",
+      },
+      {
+        icon: SiDjango,
+        text: "Django",
+        colorClass: "text-[#092E20] dark:text-[#44B78B]",
+        tintClass: "bg-emerald-500/12",
+      },
+      {
+        icon: SiNodedotjs,
+        text: "Node.js",
+        colorClass: "text-[#339933] dark:text-[#5FA04E]",
+        tintClass: "bg-green-500/12",
+      },
+      {
+        icon: SiExpress,
+        text: "Express",
+        colorClass: "text-neutral-800 dark:text-neutral-200",
+        tintClass: "bg-neutral-500/10",
+      },
+      {
+        icon: SiPostgresql,
+        text: "PostgreSQL",
+        colorClass: "text-[#336791] dark:text-[#699ECA]",
+        tintClass: "bg-blue-500/12",
+      },
+      {
+        icon: SiMongodb,
+        text: "MongoDB",
+        colorClass: "text-[#47A248]",
+        tintClass: "bg-emerald-500/12",
+      },
+      {
+        icon: SiPrisma,
+        text: "Prisma",
+        colorClass: "text-[#2D3748] dark:text-teal-300",
+        tintClass: "bg-teal-500/12",
+      },
+      {
+        icon: SiRedis,
+        text: "Redis",
+        colorClass: "text-[#DC382D] dark:text-[#FF5A4E]",
+        tintClass: "bg-red-500/12",
+      },
     ],
   },
   {
@@ -77,15 +164,60 @@ export const skillCategories: SkillCategory[] = [
     title: "Tools & Cloud",
     subtitle: "Konteneryzacja, infrastruktura i design",
     items: [
-      { icon: SiDocker, text: "Docker" },
-      { icon: SiLinux, text: "Linux" },
-      { icon: SiGnubash, text: "Bash" },
-      { icon: SiCloudflare, text: "Cloudflare" },
-      { icon: SiNginx, text: "Nginx" },
-      { icon: SiVercel, text: "Vercel" },
-      { icon: SiPostman, text: "Postman" },
-      { icon: SiFigma, text: "Figma" },
-      { icon: SiGit, text: "Git" },
+      {
+        icon: SiDocker,
+        text: "Docker",
+        colorClass: "text-[#2496ED]",
+        tintClass: "bg-sky-500/12",
+      },
+      {
+        icon: SiLinux,
+        text: "Linux",
+        colorClass: "text-[#C99100] dark:text-[#FCC624]",
+        tintClass: "bg-amber-500/12",
+      },
+      {
+        icon: SiGnubash,
+        text: "Bash",
+        colorClass: "text-[#4EAA25]",
+        tintClass: "bg-green-500/12",
+      },
+      {
+        icon: SiCloudflare,
+        text: "Cloudflare",
+        colorClass: "text-[#F38020]",
+        tintClass: "bg-orange-500/12",
+      },
+      {
+        icon: SiNginx,
+        text: "Nginx",
+        colorClass: "text-[#009639]",
+        tintClass: "bg-emerald-500/12",
+      },
+      {
+        icon: SiVercel,
+        text: "Vercel",
+        colorClass: "text-neutral-900 dark:text-white",
+        tintClass: "bg-neutral-500/10",
+      },
+      {
+        icon: SiPostman,
+        text: "Postman",
+        colorClass: "text-[#FF6C37]",
+        tintClass: "bg-orange-500/12",
+      },
+      {
+        icon: SiFigma,
+        text: "Figma",
+        colorClass: "text-[#F24E1E]",
+        tintClass: "bg-rose-500/12",
+      },
+      {
+        icon: SiGit,
+        text: "Git",
+        colorClass: "text-[#F05032]",
+        tintClass: "bg-red-500/12",
+      },
     ],
   },
 ];
@@ -98,6 +230,7 @@ export interface Project {
   repoUrl?: string;
   demoUrl?: string;
   repoSlug?: string;
+  icon?: string;
   technologies: string[];
   stars?: number;
   forks?: number;
@@ -112,6 +245,7 @@ export const projects: Project[] = [
       "Błyskawiczny klient poczty e-mail stworzony z myślą o obsłudze klawiaturą (keyboard-first) na macOS, Windows, Linux oraz web. Zbudowany w architekturze local-first z Tauri, React i Rust, ze wsparciem AI i pełnym skupieniem na prywatności.",
     demoUrl: "https://get-aven.com",
     repoSlug: "get-aven.com",
+    icon: "/projects/aven-mail.png",
     technologies: ["Tauri", "Rust", "React", "Next.js", "TypeScript", "Tailwind CSS"],
     language: "TypeScript",
     badge: "Flagship Product",
@@ -123,6 +257,7 @@ export const projects: Project[] = [
     repoUrl: "https://github.com/matiqueue/rift-daily",
     demoUrl: "https://rift-daily.vercel.app",
     repoSlug: "matiqueue/rift-daily",
+    icon: "/projects/rift-daily.png",
     technologies: ["React Native", "Expo", "TypeScript", "USOS API"],
     stars: 6,
     language: "TypeScript",
@@ -134,6 +269,7 @@ export const projects: Project[] = [
     repoUrl: "https://github.com/matiqueue/iron-routine",
     demoUrl: "https://iron-routine-app.vercel.app",
     repoSlug: "matiqueue/iron-routine",
+    icon: "/projects/iron-routine.png",
     technologies: ["React Native", "Expo", "TypeScript", "PostgreSQL"],
     stars: 3,
     language: "TypeScript",
@@ -145,6 +281,7 @@ export const projects: Project[] = [
     repoUrl: "https://github.com/matiqueue/mate-chess",
     demoUrl: "https://getmatechess.vercel.app",
     repoSlug: "matiqueue/mate-chess",
+    icon: "/projects/mate-chess.png",
     technologies: ["Next.js", "Tauri", "TypeScript", "Turborepo"],
     stars: 4,
     forks: 2,
@@ -201,6 +338,7 @@ export interface WorkExperience {
   type: WorkType;
   company: string;
   logo?: string;
+  secondaryLogo?: string;
   position: string;
   description: string;
   years: string;
@@ -253,6 +391,7 @@ export const workExperiences: WorkExperience[] = [
     id: "sg-system",
     type: "job",
     company: "SG-System",
+    logo: "/projects/sg-system.png",
     position: "Web Developer (Freelance)",
     description:
       "Zaprojektowanie i wdrożenie kompletnej strony firmowej sg-system.pl. Odpowiedzialność za frontend, wydajność, techniczne SEO i współpracę z klientem.",
@@ -266,6 +405,7 @@ export const workExperiences: WorkExperience[] = [
     id: "mate-chess",
     type: "project",
     company: "Mate Chess & Ayla AI",
+    logo: "/projects/mate-chess.png",
     position: "Lead Developer",
     description:
       "Platforma szachowa w monorepo (Next.js + Tauri) do gry online w czasie rzeczywistym i z botem oraz konwersacyjny asystent Ayla AI oparty o NLP.",
@@ -304,6 +444,7 @@ export const workExperiences: WorkExperience[] = [
     id: "aven-mail",
     type: "project",
     company: "Aven Mail",
+    logo: "/projects/aven-mail.png",
     position: "Creator & Lead Engineer",
     description:
       "Flagowy klient poczty e-mail typu keyboard-first na desktop i web. Architektura local-first w Tauri, React i Rust wraz z pełnym ekosystemem webowym.",
@@ -318,6 +459,8 @@ export const workExperiences: WorkExperience[] = [
     id: "mobile-suite",
     type: "project",
     company: "Rift Daily & Iron Routine",
+    logo: "/projects/rift-daily.png",
+    secondaryLogo: "/projects/iron-routine.png",
     position: "Mobile Product Developer",
     description:
       "Dwie aplikacje mobilne na iOS i Androida w React Native i Expo: szybki e-Dziennik studencki USOS w stylu Bento Grid oraz offline-first dziennik treningowy z E2EE.",

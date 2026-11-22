@@ -110,8 +110,12 @@ export default function SkillsSection() {
                           }}
                           className="group/chip"
                         >
-                          <div className="rounded-xl px-3.5 py-2 flex items-center gap-2 bg-secondary/70 hover:bg-primary/10 border border-border/60 hover:border-primary/40 cursor-default transition-all duration-200">
-                            <Icon className="w-4 h-4 text-primary transition-transform duration-200 group-hover/chip:scale-110" />
+                          <div className="rounded-xl pl-2 pr-3.5 py-1.5 flex items-center gap-2.5 bg-background/60 dark:bg-secondary/50 hover:bg-background/95 dark:hover:bg-secondary/90 border border-border/60 hover:border-primary/40 cursor-default transition-all duration-200 shadow-sm">
+                            <span
+                              className={`w-7 h-7 rounded-lg flex items-center justify-center ${skill.tintClass} transition-transform duration-200 group-hover/chip:scale-110`}
+                            >
+                              <Icon className={`w-4 h-4 ${skill.colorClass}`} />
+                            </span>
                             <span className="font-medium text-xs sm:text-sm">{skill.text}</span>
                           </div>
                         </motion.div>

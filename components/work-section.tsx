@@ -8,15 +8,10 @@ import {
   type WorkIconType,
   type WorkType,
 } from "@/lib/data";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import {
-  Calendar,
   Building2,
-  GitBranch,
-  ChevronRight,
   GraduationCap,
-  FolderGit2,
-  ExternalLink,
+  ArrowUpRight,
   Briefcase,
   Terminal,
   Server,
@@ -27,9 +22,6 @@ import {
   Sparkles,
   Flag,
   Compass,
-  ArrowRight,
-  ArrowLeft,
-  ArrowDown,
 } from "lucide-react";
 import { SiChessdotcom, SiGithub } from "react-icons/si";
 
@@ -40,184 +32,277 @@ interface Point {
   y: number;
 }
 
-interface TurnMarker {
-  x: number;
-  y: number;
-  side: "left" | "right";
-}
-
-interface SegmentArrow {
-  x: number;
-  y: number;
-  dir: "right" | "left";
-}
-
 interface RoadGeometry {
   width: number;
   height: number;
   pathD: string;
-  turns: TurnMarker[];
-  arrows: SegmentArrow[];
 }
 
-function getAvatarIcon(iconType: WorkIconType) {
+// Organic asymmetric vertical wave offsets so milestones flow naturally instead of sitting in a rigid grid
+const DESKTOP_WAVE_PATTERN = [
+  [0, 56, 14],
+  [26, 0, 58],
+  [8, 48, 0],
+];
+
+const TABLET_WAVE_PATTERN = [
+  [0, 44],
+  [36, 0],
+];
+
+function getWaveOffset(rowIndex: number, visualColIndex: number, cols: number): number {
+  if (cols === 3) {
+    const row = DESKTOP_WAVE_PATTERN[rowIndex % DESKTOP_WAVE_PATTERN.length];
+    return row[visualColIndex % 3] ?? 0;
+  }
+  const row = TABLET_WAVE_PATTERN[rowIndex % TABLET_WAVE_PATTERN.length];
+  return row[visualColIndex % 2] ?? 0;
+}
+
+function getFallbackIconMeta(iconType: WorkIconType): {
+  icon: React.ReactNode;
+  bg: string;
+  text: string;
+} {
   switch (iconType) {
     case "school":
-      return <GraduationCap className="w-5 h-5" />;
+      return {
+        icon: <GraduationCap className="w-7 h-7" />,
+        bg: "from-violet-500 to-indigo-600",
+        text: "text-white",
+      };
     case "github":
-      return <SiGithub className="w-5 h-5" />;
+      return {
+        icon: <SiGithub className="w-7 h-7" />,
+        bg: "from-neutral-800 to-neutral-950 dark:from-neutral-200 dark:to-white",
+        text: "text-white dark:text-neutral-950",
+      };
     case "console":
-      return <Terminal className="w-5 h-5" />;
+      return {
+        icon: <Terminal className="w-6 h-6" />,
+        bg: "from-sky-500 to-cyan-600",
+        text: "text-white",
+      };
     case "server":
-      return <Server className="w-5 h-5" />;
+      return {
+        icon: <Server className="w-6 h-6" />,
+        bg: "from-orange-500 to-red-500",
+        text: "text-white",
+      };
     case "chess":
-      return <SiChessdotcom className="w-5 h-5" />;
+      return {
+        icon: <SiChessdotcom className="w-6 h-6" />,
+        bg: "from-emerald-500 to-green-700",
+        text: "text-white",
+      };
     case "bike":
-      return <Bike className="w-5 h-5" />;
+      return {
+        icon: <Bike className="w-7 h-7" />,
+        bg: "from-amber-500 to-orange-600",
+        text: "text-white",
+      };
     case "building":
-      return <Building2 className="w-5 h-5" />;
+      return {
+        icon: <Building2 className="w-7 h-7" />,
+        bg: "from-primary via-sky-500 to-teal-500",
+        text: "text-white",
+      };
     case "mail":
-      return <Mail className="w-5 h-5" />;
+      return {
+        icon: <Mail className="w-6 h-6" />,
+        bg: "from-slate-700 to-slate-900",
+        text: "text-white",
+      };
     case "smartphone":
-      return <Smartphone className="w-5 h-5" />;
+      return {
+        icon: <Smartphone className="w-6 h-6" />,
+        bg: "from-teal-500 to-emerald-600",
+        text: "text-white",
+      };
     case "code":
     default:
-      return <Code className="w-5 h-5" />;
+      return {
+        icon: <Code className="w-6 h-6" />,
+        bg: "from-primary to-accent",
+        text: "text-primary-foreground",
+      };
   }
-}
-
-function getNodeIcon(type: WorkType) {
-  if (type === "school") return <GraduationCap className="w-5 h-5 text-white" />;
-  if (type === "project") return <FolderGit2 className="w-5 h-5 text-white" />;
-  return <GitBranch className="w-5 h-5 text-primary-foreground" />;
 }
 
 function getTypeStyle(type: WorkType) {
   if (type === "school") {
     return {
       label: "Edukacja",
-      nodeGradient: "from-violet-500 to-indigo-600",
-      topBar: "from-violet-500 via-purple-500 to-indigo-500",
-      badge: "bg-violet-500/12 text-violet-600 dark:text-violet-400 border-violet-500/25",
       dot: "bg-violet-500",
-      ring: "ring-violet-500/30",
-      avatarBg: "bg-violet-500/10 text-violet-600 dark:text-violet-400",
+      text: "text-violet-600 dark:text-violet-400",
+      line: "border-violet-500/40 group-hover:border-violet-500",
+      stem: "from-violet-500/70 to-violet-500/10",
     };
   }
   if (type === "project") {
     return {
       label: "Projekt",
-      nodeGradient: "from-emerald-500 to-teal-600",
-      topBar: "from-emerald-500 via-teal-400 to-cyan-500",
-      badge: "bg-emerald-500/12 text-emerald-700 dark:text-emerald-400 border-emerald-500/25",
       dot: "bg-emerald-500",
-      ring: "ring-emerald-500/30",
-      avatarBg: "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400",
+      text: "text-emerald-600 dark:text-emerald-400",
+      line: "border-emerald-500/40 group-hover:border-emerald-500",
+      stem: "from-emerald-500/70 to-emerald-500/10",
     };
   }
   return {
     label: "Praca",
-    nodeGradient: "from-primary to-accent",
-    topBar: "from-primary via-sky-400 to-accent",
-    badge: "bg-primary/12 text-primary border-primary/25",
     dot: "bg-primary",
-    ring: "ring-primary/30",
-    avatarBg: "bg-primary/10 text-primary",
+    text: "text-primary",
+    line: "border-primary/40 group-hover:border-primary",
+    stem: "from-primary/70 to-primary/10",
   };
 }
 
-function WorkCardContent({
+function ProjectMedallion({
+  experience,
+  isHovered,
+  size = "desktop",
+}: {
+  experience: WorkExperience;
+  isHovered: boolean;
+  size?: "desktop" | "mobile";
+}) {
+  const isSmall = size === "mobile";
+  const boxSize = isSmall ? "w-12 h-12 rounded-2xl" : "w-16 h-16 rounded-[18px]";
+
+  // Dual stacked app icons (e.g. Rift Daily & Iron Routine)
+  if (experience.logo && experience.secondaryLogo) {
+    return (
+      <div
+        className={`relative flex items-center justify-center ${
+          isSmall ? "w-14 h-12" : "w-20 h-16"
+        }`}
+      >
+        <motion.img
+          src={experience.logo}
+          alt={experience.company}
+          animate={{
+            x: isHovered ? (isSmall ? -5 : -8) : isSmall ? -3 : -5,
+            rotate: isHovered ? -10 : -6,
+            scale: isHovered ? 1.06 : 1,
+          }}
+          transition={{ type: "spring", stiffness: 320, damping: 20 }}
+          className={`${
+            isSmall ? "w-10 h-10 rounded-xl" : "w-14 h-14 rounded-2xl"
+          } object-cover shadow-lg ring-2 ring-background bg-neutral-950 relative z-10`}
+        />
+        <motion.img
+          src={experience.secondaryLogo}
+          alt={`${experience.company} app`}
+          animate={{
+            x: isHovered ? (isSmall ? 5 : 8) : isSmall ? 3 : 5,
+            rotate: isHovered ? 10 : 6,
+            scale: isHovered ? 1.06 : 1,
+          }}
+          transition={{ type: "spring", stiffness: 320, damping: 20 }}
+          className={`${
+            isSmall ? "w-10 h-10 rounded-xl -ml-4" : "w-14 h-14 rounded-2xl -ml-5"
+          } object-cover shadow-lg ring-2 ring-background bg-neutral-950 relative z-20`}
+        />
+      </div>
+    );
+  }
+
+  // Real project/company logo icon
+  if (experience.logo) {
+    const isLightLogo = experience.id === "sg-system";
+    return (
+      <motion.div
+        animate={{ scale: isHovered ? 1.1 : 1, rotate: isHovered ? -3 : 0 }}
+        transition={{ type: "spring", stiffness: 320, damping: 20 }}
+        className={`${boxSize} overflow-hidden shadow-lg ring-4 ring-background ${
+          isLightLogo ? "bg-white p-1.5" : "bg-neutral-950"
+        } ${isHovered ? "glow" : "glow-sm"}`}
+      >
+        <img
+          src={experience.logo}
+          alt={experience.company}
+          className={`w-full h-full ${isLightLogo ? "object-contain" : "object-cover"}`}
+        />
+      </motion.div>
+    );
+  }
+
+  // Rich colored brand-styled fallback icon
+  const fallback = getFallbackIconMeta(experience.iconType);
+  return (
+    <motion.div
+      animate={{ scale: isHovered ? 1.1 : 1, rotate: isHovered ? 3 : 0 }}
+      transition={{ type: "spring", stiffness: 320, damping: 20 }}
+      className={`${boxSize} bg-gradient-to-br ${fallback.bg} ${fallback.text} flex items-center justify-center shadow-lg ring-4 ring-background ${
+        isHovered ? "glow" : "glow-sm"
+      }`}
+    >
+      {fallback.icon}
+    </motion.div>
+  );
+}
+
+function WaypointContent({
   experience,
   stepNumber,
-  isHighlighted,
   onHoverChange,
 }: {
   experience: WorkExperience;
   stepNumber: string;
-  isHighlighted?: boolean;
   onHoverChange?: (hovered: boolean) => void;
 }) {
   const style = getTypeStyle(experience.type);
 
   return (
-    <motion.article
+    <div
       onMouseEnter={() => onHoverChange?.(true)}
       onMouseLeave={() => onHoverChange?.(false)}
-      whileHover={{ y: -5 }}
-      transition={{ type: "spring", stiffness: 320, damping: 24 }}
-      className={`glass rounded-2xl relative overflow-hidden group flex flex-col h-full transition-all duration-300 ${
-        isHighlighted
-          ? "border-primary/60 shadow-[0_12px_40px_-14px_hsl(var(--glow)/0.38)]"
-          : "hover:border-primary/45"
-      }`}
+      className="group relative pl-4 pr-2 py-2 rounded-2xl transition-colors duration-300 hover:bg-foreground/[0.025] dark:hover:bg-foreground/[0.03]"
     >
-      {/* Top gradient bar */}
-      <div className={`h-1 w-full bg-gradient-to-r ${style.topBar}`} />
+      {/* Subtle large background step number watermark */}
+      <span
+        aria-hidden="true"
+        className="pointer-events-none select-none absolute -top-3 right-1 font-mono font-black text-5xl leading-none text-foreground/[0.045] dark:text-foreground/[0.055] group-hover:text-primary/[0.09] transition-colors duration-300"
+      >
+        {stepNumber}
+      </span>
 
-      {/* Subtle hover aura */}
-      <div className="absolute inset-0 bg-gradient-to-br from-primary/[0.06] via-transparent to-accent/[0.06] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-
-      <div className="p-5 flex flex-col flex-1 relative z-10">
-        {/* Top meta row: type badge + date + live pulse */}
-        <div className="flex flex-wrap items-center justify-between gap-2 mb-3.5">
-          <div className="flex items-center gap-1.5">
-            <span
-              className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold border ${style.badge}`}
-            >
-              <span className={`w-1.5 h-1.5 rounded-full ${style.dot}`} />
-              {style.label}
-            </span>
-            {experience.isCurrent && (
-              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold uppercase tracking-wider bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                Aktywne
-              </span>
-            )}
-          </div>
-
-          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-muted/80 text-muted-foreground text-[11px] font-mono border border-border/50">
-            <Calendar className="w-3 h-3 flex-shrink-0" />
-            {experience.years}
+      {/* Open editorial block with left accent rail instead of a heavy boxed card */}
+      <div className={`border-l-2 pl-4 transition-colors duration-300 ${style.line}`}>
+        {/* Meta row: year + category + live dot */}
+        <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1 text-xs mb-1.5">
+          <span className="font-mono font-semibold text-foreground/75">{experience.years}</span>
+          <span className="text-border">/</span>
+          <span className={`inline-flex items-center gap-1.5 font-medium ${style.text}`}>
+            <span className={`w-1.5 h-1.5 rounded-full ${style.dot}`} />
+            {style.label}
           </span>
+          {experience.isCurrent && (
+            <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-600 dark:text-emerald-400">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+              Obecnie
+            </span>
+          )}
         </div>
 
-        {/* Header: icon + title + position */}
-        <div className="flex items-start gap-3 mb-3">
-          <Avatar className={`w-11 h-11 flex-shrink-0 ring-2 ${style.ring} ring-offset-2 ring-offset-background`}>
-            {experience.logo && <AvatarImage src={experience.logo} alt={experience.company} />}
-            <AvatarFallback className={style.avatarBg}>
-              {getAvatarIcon(experience.iconType)}
-            </AvatarFallback>
-          </Avatar>
+        {/* Title + Role */}
+        <h3 className="text-lg font-bold tracking-tight leading-snug group-hover:text-primary transition-colors">
+          {experience.company}
+        </h3>
+        <p className="text-sm font-medium text-primary/90 mt-0.5">{experience.position}</p>
 
-          <div className="flex-1 min-w-0">
-            <div className="flex items-baseline justify-between gap-2">
-              <h3 className="text-base font-bold tracking-tight group-hover:text-primary transition-colors leading-snug">
-                {experience.company}
-              </h3>
-              <span className="text-[11px] font-mono text-muted-foreground/60 flex-shrink-0">
-                #{stepNumber}
-              </span>
-            </div>
-            <p className="text-xs sm:text-sm text-primary font-medium flex items-center gap-1 mt-0.5">
-              <ChevronRight className="w-3.5 h-3.5 flex-shrink-0" />
-              <span className="truncate">{experience.position}</span>
-            </p>
-          </div>
-        </div>
-
-        {/* Description */}
-        <p className="text-muted-foreground leading-relaxed text-sm flex-1">
+        {/* Description directly on page canvas */}
+        <p className="text-sm text-muted-foreground leading-relaxed mt-2.5">
           {experience.description}
         </p>
 
-        {/* Skills */}
+        {/* Minimal inline tech tags */}
         {experience.skills.length > 0 && (
-          <div className="flex flex-wrap gap-1.5 mt-4">
+          <div className="flex flex-wrap items-center gap-1.5 mt-3">
             {experience.skills.map((skill) => (
               <span
                 key={skill}
-                className="px-2 py-0.5 text-[11px] rounded-md bg-secondary/80 text-secondary-foreground border border-border/50 font-medium"
+                className="px-2 py-0.5 text-[11px] font-mono rounded-md bg-foreground/[0.045] dark:bg-foreground/[0.06] text-foreground/75"
               >
                 {skill}
               </span>
@@ -225,115 +310,92 @@ function WorkCardContent({
           </div>
         )}
 
-        {/* Footer link */}
+        {/* Link */}
         {experience.link && (
-          <div className="mt-4 pt-3 border-t border-border/40 flex items-center justify-between">
+          <div className="mt-3">
             <a
               href={experience.link}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 text-xs text-primary font-semibold hover:underline"
+              className="inline-flex items-center gap-1 text-xs font-semibold text-primary hover:underline underline-offset-4 group/link"
             >
-              <ExternalLink className="w-3.5 h-3.5" />
-              {experience.linkLabel ?? "Zobacz więcej"}
+              <span>{experience.linkLabel ?? "Zobacz projekt"}</span>
+              <ArrowUpRight className="w-3.5 h-3.5 transition-transform group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5" />
             </a>
-            <span className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground/60">
-              {experience.years.split(" ")[0]}
-            </span>
           </div>
         )}
       </div>
-    </motion.article>
+    </div>
   );
 }
 
-function buildSerpentineGeometry(
+function buildOrganicSerpentinePath(
   points: Point[],
   cols: number,
   width: number,
   height: number
 ): RoadGeometry {
   if (points.length === 0 || width <= 0 || height <= 0) {
-    return { width, height, pathD: "", turns: [], arrows: [] };
+    return { width, height, pathD: "" };
   }
 
-  // Group indices by row
   const rowCount = Math.ceil(points.length / cols);
-  const turns: TurnMarker[] = [];
-  const arrows: SegmentArrow[] = [];
-
-  const sideMargin = width >= 1100 ? 22 : 16;
+  const sideMargin = width >= 1100 ? 28 : 18;
   const rightTurnX = width - sideMargin;
   const leftTurnX = sideMargin;
 
-  // Start slightly to the left of the first milestone
+  // Organic entry lead-in curve from the left
   const first = points[0];
-  const startLeadX = Math.max(leftTurnX + 16, first.x - Math.min(84, width * 0.08));
-  let d = `M ${startLeadX.toFixed(1)} ${first.y.toFixed(1)} L ${first.x.toFixed(1)} ${first.y.toFixed(1)}`;
+  const leadX = Math.max(leftTurnX + 12, first.x - Math.min(95, width * 0.08));
+  let d = `M ${leadX.toFixed(1)} ${(first.y - 12).toFixed(1)} Q ${((leadX + first.x) / 2).toFixed(1)} ${first.y.toFixed(1)} ${first.x.toFixed(1)} ${first.y.toFixed(1)}`;
 
   for (let r = 0; r < rowCount; r++) {
     const startIdx = r * cols;
     const endIdx = Math.min(startIdx + cols - 1, points.length - 1);
     const isLtr = r % 2 === 0;
 
-    // Horizontal segments between milestones within this row
+    // Smooth undulating cubic Bezier waves between milestones in the same row
     for (let i = startIdx; i < endIdx; i++) {
       const a = points[i];
       const b = points[i + 1];
-      d += ` L ${b.x.toFixed(1)} ${b.y.toFixed(1)}`;
-      arrows.push({
-        x: (a.x + b.x) / 2,
-        y: (a.y + b.y) / 2,
-        dir: isLtr ? "right" : "left",
-      });
+      const midX = (a.x + b.x) / 2;
+      d += ` C ${midX.toFixed(1)} ${a.y.toFixed(1)}, ${midX.toFixed(1)} ${b.y.toFixed(1)}, ${b.x.toFixed(1)} ${b.y.toFixed(1)}`;
     }
 
-    // Smooth rounded U-turn to the next row
+    // Wide sweeping organic Bezier U-turn down to the next row
     if (r < rowCount - 1) {
       const currEnd = points[endIdx];
       const nextStart = points[endIdx + 1];
-      const dy = Math.max(40, nextStart.y - currEnd.y);
+      const dy = Math.max(80, nextStart.y - currEnd.y);
+      const midY = (currEnd.y + nextStart.y) / 2;
       const turnX = isLtr ? rightTurnX : leftTurnX;
-      const horizontalSpace = isLtr
-        ? Math.max(16, turnX - currEnd.x)
-        : Math.max(16, currEnd.x - turnX);
-      const radius = Math.min(44, dy * 0.28, horizontalSpace * 0.72);
+      const pull = Math.min(54, dy * 0.24);
 
       if (isLtr) {
-        d += ` L ${(turnX - radius).toFixed(1)} ${currEnd.y.toFixed(1)}`;
-        d += ` Q ${turnX.toFixed(1)} ${currEnd.y.toFixed(1)} ${turnX.toFixed(1)} ${(currEnd.y + radius).toFixed(1)}`;
-        d += ` L ${turnX.toFixed(1)} ${(nextStart.y - radius).toFixed(1)}`;
-        d += ` Q ${turnX.toFixed(1)} ${nextStart.y.toFixed(1)} ${(turnX - radius).toFixed(1)} ${nextStart.y.toFixed(1)}`;
-        d += ` L ${nextStart.x.toFixed(1)} ${nextStart.y.toFixed(1)}`;
+        const ctrlOutX = turnX + 6;
+        d += ` C ${ctrlOutX.toFixed(1)} ${currEnd.y.toFixed(1)}, ${turnX.toFixed(1)} ${(midY - pull).toFixed(1)}, ${turnX.toFixed(1)} ${midY.toFixed(1)}`;
+        d += ` C ${turnX.toFixed(1)} ${(midY + pull).toFixed(1)}, ${ctrlOutX.toFixed(1)} ${nextStart.y.toFixed(1)}, ${nextStart.x.toFixed(1)} ${nextStart.y.toFixed(1)}`;
       } else {
-        d += ` L ${(turnX + radius).toFixed(1)} ${currEnd.y.toFixed(1)}`;
-        d += ` Q ${turnX.toFixed(1)} ${currEnd.y.toFixed(1)} ${turnX.toFixed(1)} ${(currEnd.y + radius).toFixed(1)}`;
-        d += ` L ${turnX.toFixed(1)} ${(nextStart.y - radius).toFixed(1)}`;
-        d += ` Q ${turnX.toFixed(1)} ${nextStart.y.toFixed(1)} ${(turnX + radius).toFixed(1)} ${nextStart.y.toFixed(1)}`;
-        d += ` L ${nextStart.x.toFixed(1)} ${nextStart.y.toFixed(1)}`;
+        const ctrlOutX = turnX - 6;
+        d += ` C ${ctrlOutX.toFixed(1)} ${currEnd.y.toFixed(1)}, ${turnX.toFixed(1)} ${(midY - pull).toFixed(1)}, ${turnX.toFixed(1)} ${midY.toFixed(1)}`;
+        d += ` C ${turnX.toFixed(1)} ${(midY + pull).toFixed(1)}, ${ctrlOutX.toFixed(1)} ${nextStart.y.toFixed(1)}, ${nextStart.x.toFixed(1)} ${nextStart.y.toFixed(1)}`;
       }
-
-      turns.push({
-        x: turnX,
-        y: (currEnd.y + nextStart.y) / 2,
-        side: isLtr ? "right" : "left",
-      });
     }
   }
 
-  // Short tail after the last milestone in its row direction
+  // Gentle trailing curve after the last milestone
   const lastRowIsLtr = (rowCount - 1) % 2 === 0;
   const last = points[points.length - 1];
-  const tailOffset = Math.min(84, width * 0.08);
+  const tailOffset = Math.min(90, width * 0.08);
   const endTailX = lastRowIsLtr
-    ? Math.min(rightTurnX - 16, last.x + tailOffset)
-    : Math.max(leftTurnX + 16, last.x - tailOffset);
-  d += ` L ${endTailX.toFixed(1)} ${last.y.toFixed(1)}`;
+    ? Math.min(rightTurnX - 12, last.x + tailOffset)
+    : Math.max(leftTurnX + 12, last.x - tailOffset);
+  d += ` Q ${((last.x + endTailX) / 2).toFixed(1)} ${last.y.toFixed(1)} ${endTailX.toFixed(1)} ${(last.y + 10).toFixed(1)}`;
 
-  return { width, height, pathD: d, turns, arrows };
+  return { width, height, pathD: d };
 }
 
-function DesktopSerpentineRoadmap({ items }: { items: WorkExperience[] }) {
+function DesktopOrganicRoadmap({ items }: { items: WorkExperience[] }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const nodeRefs = useRef<(HTMLDivElement | null)[]>([]);
   const [cols, setCols] = useState(3);
@@ -342,11 +404,8 @@ function DesktopSerpentineRoadmap({ items }: { items: WorkExperience[] }) {
     width: 0,
     height: 0,
     pathD: "",
-    turns: [],
-    arrows: [],
   });
 
-  // Responsive column count: 3 on lg+ (>=1024px), 2 on md (768px-1023px)
   useEffect(() => {
     const mq = window.matchMedia("(min-width: 1024px)");
     const updateCols = () => setCols(mq.matches ? 3 : 2);
@@ -356,7 +415,11 @@ function DesktopSerpentineRoadmap({ items }: { items: WorkExperience[] }) {
   }, []);
 
   const rows = useMemo(() => {
-    const grouped: { rowIndex: number; isLtr: boolean; entries: { item: WorkExperience; globalIndex: number }[] }[] = [];
+    const grouped: {
+      rowIndex: number;
+      isLtr: boolean;
+      entries: { item: WorkExperience; globalIndex: number }[];
+    }[] = [];
     for (let i = 0; i < items.length; i += cols) {
       const rowIndex = Math.floor(i / cols);
       grouped.push({
@@ -391,7 +454,7 @@ function DesktopSerpentineRoadmap({ items }: { items: WorkExperience[] }) {
 
     if (points.length === items.length) {
       setGeometry(
-        buildSerpentineGeometry(points, cols, containerRect.width, containerRect.height)
+        buildOrganicSerpentinePath(points, cols, containerRect.width, containerRect.height)
       );
     }
   }, [items, cols]);
@@ -413,7 +476,6 @@ function DesktopSerpentineRoadmap({ items }: { items: WorkExperience[] }) {
     };
   }, [measurePath, items.length]);
 
-  // Scroll-linked road progress
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start 78%", "end 68%"],
@@ -426,27 +488,27 @@ function DesktopSerpentineRoadmap({ items }: { items: WorkExperience[] }) {
 
   return (
     <div className="hidden md:block relative">
-      {/* Start Pill */}
-      <div className="flex items-center justify-between px-12 lg:px-16 mb-3">
+      {/* Minimal route header strip */}
+      <div className="flex items-center justify-between px-12 lg:px-16 mb-2">
         <motion.div
-          initial={{ opacity: 0, x: -16 }}
+          initial={{ opacity: 0, x: -12 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
-          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass border-primary/30 text-primary text-xs font-mono uppercase tracking-wider"
+          className="inline-flex items-center gap-2 text-primary text-xs font-mono uppercase tracking-wider"
         >
           <Flag className="w-3.5 h-3.5" />
-          Start ścieżki ({items[0]?.years.split(" ")[0] ?? "2021"})
+          Start ({items[0]?.years.split(" ")[0] ?? "2021"})
         </motion.div>
 
         <div className="inline-flex items-center gap-2 text-xs font-mono text-muted-foreground">
           <Compass className="w-3.5 h-3.5 text-primary" />
-          <span>{items.length} kamieni milowych</span>
+          <span>{items.length} przystanków na trasie</span>
         </div>
       </div>
 
-      {/* Main serpentine container */}
-      <div ref={containerRef} className="relative px-10 lg:px-14 py-4">
-        {/* Dynamic continuous serpentine SVG track */}
+      {/* Winding road container */}
+      <div ref={containerRef} className="relative px-10 lg:px-16 py-6">
+        {/* Continuous undulating SVG path */}
         {geometry.pathD && (
           <svg
             width={geometry.width}
@@ -457,12 +519,12 @@ function DesktopSerpentineRoadmap({ items }: { items: WorkExperience[] }) {
             aria-hidden="true"
           >
             <defs>
-              <linearGradient id="serpentine-road-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <linearGradient id="organic-road-grad" x1="0%" y1="0%" x2="100%" y2="100%">
                 <stop offset="0%" stopColor="#8b5cf6" />
-                <stop offset="45%" stopColor="hsl(var(--primary))" />
+                <stop offset="48%" stopColor="hsl(var(--primary))" />
                 <stop offset="100%" stopColor="#10b981" />
               </linearGradient>
-              <filter id="serpentine-glow" x="-15%" y="-15%" width="130%" height="130%">
+              <filter id="organic-road-glow" x="-15%" y="-15%" width="130%" height="130%">
                 <feGaussianBlur stdDeviation="5" result="blur" />
                 <feMerge>
                   <feMergeNode in="blur" />
@@ -471,74 +533,46 @@ function DesktopSerpentineRoadmap({ items }: { items: WorkExperience[] }) {
               </filter>
             </defs>
 
-            {/* Outer soft track halo */}
+            {/* Ambient wide soft ribbon */}
             <path
               d={geometry.pathD}
               stroke="hsl(var(--primary))"
-              strokeOpacity="0.1"
-              strokeWidth="12"
+              strokeOpacity="0.09"
+              strokeWidth="16"
               strokeLinecap="round"
               strokeLinejoin="round"
             />
 
-            {/* Dashed guide track */}
+            {/* Dotted map guide */}
             <path
               d={geometry.pathD}
               stroke="hsl(var(--primary))"
-              strokeOpacity="0.3"
-              strokeWidth="2.5"
-              strokeDasharray="6 8"
+              strokeOpacity="0.28"
+              strokeWidth="2"
+              strokeDasharray="4 8"
               strokeLinecap="round"
               strokeLinejoin="round"
             />
 
-            {/* Scroll-drawn luminous progress line */}
+            {/* Scroll-drawn luminous route */}
             <motion.path
               d={geometry.pathD}
-              stroke="url(#serpentine-road-grad)"
-              strokeWidth="3.5"
+              stroke="url(#organic-road-grad)"
+              strokeWidth="3.2"
               strokeLinecap="round"
               strokeLinejoin="round"
-              filter="url(#serpentine-glow)"
+              filter="url(#organic-road-glow)"
               style={{ pathLength: smoothProgress }}
             />
           </svg>
         )}
 
-        {/* Direction arrows along horizontal tracks */}
-        {geometry.arrows.map((arrow, idx) => (
-          <div
-            key={`arrow-${idx}`}
-            style={{ left: arrow.x, top: arrow.y }}
-            className="absolute -translate-x-1/2 -translate-y-1/2 z-[1] pointer-events-none w-6 h-6 rounded-full bg-background/95 border border-primary/35 flex items-center justify-center text-primary shadow-sm"
-            aria-hidden="true"
-          >
-            {arrow.dir === "right" ? (
-              <ArrowRight className="w-3.5 h-3.5" />
-            ) : (
-              <ArrowLeft className="w-3.5 h-3.5" />
-            )}
-          </div>
-        ))}
-
-        {/* Turn direction badges on outer U-turns */}
-        {geometry.turns.map((turn, idx) => (
-          <div
-            key={`turn-${idx}`}
-            style={{ left: turn.x, top: turn.y }}
-            className="absolute -translate-x-1/2 -translate-y-1/2 z-[1] pointer-events-none w-7 h-7 rounded-full bg-background border border-primary/40 flex items-center justify-center text-primary glow-sm"
-            aria-hidden="true"
-          >
-            <ArrowDown className="w-3.5 h-3.5" />
-          </div>
-        ))}
-
-        {/* Rows of milestones and cards */}
-        <div className="space-y-14 relative z-10">
+        {/* Organic rows with staggered vertical wave offsets */}
+        <div className="space-y-16 lg:space-y-20 relative z-10">
           {rows.map((row) => (
             <div
               key={`row-${row.rowIndex}`}
-              className="grid gap-6 lg:gap-7"
+              className="grid gap-x-8 lg:gap-x-12 items-start"
               style={{ gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))` }}
             >
               {row.entries.map(({ item, globalIndex }, localIdx) => {
@@ -546,82 +580,63 @@ function DesktopSerpentineRoadmap({ items }: { items: WorkExperience[] }) {
                 const stepNumber = String(globalIndex + 1).padStart(2, "0");
                 const isHovered = hoveredId === item.id;
                 const gridCol = row.isLtr ? localIdx + 1 : cols - localIdx;
+                const visualColIndex = gridCol - 1;
+                const waveTop = getWaveOffset(row.rowIndex, visualColIndex, cols);
 
                 return (
                   <div
                     key={item.id}
-                    style={{ gridColumnStart: gridCol, gridRowStart: 1 }}
-                    className="flex flex-col items-center h-full"
+                    style={{
+                      gridColumnStart: gridCol,
+                      gridRowStart: 1,
+                      paddingTop: `${waveTop}px`,
+                    }}
+                    className="flex flex-col items-start"
                   >
-                    {/* Milestone node positioned right on the serpentine track */}
-                    <div className="relative flex flex-col items-center">
+                    {/* Milestone medallion anchored right onto the curved SVG route */}
+                    <div className="relative flex flex-col items-center ml-4">
                       <div
                         ref={(el) => {
                           nodeRefs.current[globalIndex] = el;
                         }}
-                        className="relative z-20"
+                        onMouseEnter={() => setHoveredId(item.id)}
+                        onMouseLeave={() => setHoveredId(null)}
+                        className="relative z-20 cursor-pointer"
                       >
-                        <motion.div
-                          initial={{ opacity: 0, scale: 0.7 }}
-                          whileInView={{ opacity: 1, scale: isHovered ? 1.15 : 1 }}
-                          viewport={{ once: true, margin: "-40px" }}
-                          animate={{ scale: isHovered ? 1.15 : 1 }}
-                          transition={{ type: "spring", stiffness: 320, damping: 22 }}
-                          className="relative"
-                        >
-                          <div
-                            className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${style.nodeGradient} flex items-center justify-center shadow-lg ring-4 ring-background transition-shadow duration-300 ${
-                              isHovered ? "glow" : "glow-sm"
-                            }`}
-                          >
-                            {getNodeIcon(item.type)}
-                          </div>
+                        <ProjectMedallion
+                          experience={item}
+                          isHovered={isHovered}
+                          size="desktop"
+                        />
 
-                          {/* Step counter pill */}
-                          <span className="absolute -top-2 -right-2.5 px-1.5 py-0.5 rounded-md bg-background border border-border text-[10px] font-mono font-bold text-foreground shadow-sm">
-                            {stepNumber}
-                          </span>
-
-                          {/* Live pulse ring for current milestones */}
-                          {item.isCurrent && (
-                            <motion.div
-                              className="absolute inset-0 rounded-2xl border-2 border-primary/50 pointer-events-none"
-                              animate={{ scale: [1, 1.38, 1], opacity: [0.55, 0, 0.55] }}
-                              transition={{ duration: 2.6, repeat: Infinity, ease: "easeInOut" }}
-                            />
-                          )}
-                        </motion.div>
+                        {item.isCurrent && (
+                          <motion.div
+                            className="absolute -inset-1.5 rounded-[22px] border border-emerald-500/50 pointer-events-none"
+                            animate={{ scale: [1, 1.18, 1], opacity: [0.5, 0, 0.5] }}
+                            transition={{ duration: 2.6, repeat: Infinity, ease: "easeInOut" }}
+                          />
+                        )}
                       </div>
 
-                      {/* Vertical stem from node to card */}
-                      <div className="flex flex-col items-center">
-                        <div
-                          className={`w-0.5 h-6 transition-colors duration-300 ${
-                            isHovered
-                              ? "bg-gradient-to-b from-primary to-accent"
-                              : "bg-gradient-to-b from-primary/50 to-border"
-                          }`}
-                        />
-                        <div
-                          className={`w-2 h-2 rounded-full -mb-1 z-10 transition-colors duration-300 ${
-                            isHovered ? "bg-primary scale-125" : "bg-primary/50"
-                          }`}
-                        />
-                      </div>
+                      {/* Delicate vertical connector to open waypoint block */}
+                      <div
+                        className={`w-px h-6 bg-gradient-to-b ${style.stem} transition-opacity duration-300 ${
+                          isHovered ? "opacity-100" : "opacity-65"
+                        }`}
+                      />
                     </div>
 
-                    {/* Card */}
+                    {/* Open editorial content block (no heavy card border) */}
                     <motion.div
-                      initial={{ opacity: 0, y: 20 }}
+                      initial={{ opacity: 0, y: 16 }}
                       whileInView={{ opacity: 1, y: 0 }}
                       viewport={{ once: true, margin: "-40px" }}
                       transition={{ duration: 0.45, delay: localIdx * 0.08 }}
-                      className="w-full flex-1"
+                      className="w-full"
                     >
-                      <WorkCardContent
+                      <WaypointContent
                         experience={item}
                         stepNumber={stepNumber}
-                        isHighlighted={isHovered}
                         onHoverChange={(h) => setHoveredId(h ? item.id : null)}
                       />
                     </motion.div>
@@ -633,17 +648,17 @@ function DesktopSerpentineRoadmap({ items }: { items: WorkExperience[] }) {
         </div>
       </div>
 
-      {/* End Pill */}
+      {/* End marker */}
       <div
-        className={`flex px-12 lg:px-16 mt-4 ${
+        className={`flex px-12 lg:px-16 mt-2 ${
           (rows.length - 1) % 2 === 0 ? "justify-end" : "justify-start"
         }`}
       >
         <motion.div
-          initial={{ opacity: 0, y: 12 }}
+          initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-600 dark:text-emerald-400 text-xs font-mono uppercase tracking-wider"
+          className="inline-flex items-center gap-2 text-emerald-600 dark:text-emerald-400 text-xs font-mono uppercase tracking-wider"
         >
           <Sparkles className="w-3.5 h-3.5" />
           Obecnie (2026) & Kolejne kroki
@@ -653,8 +668,9 @@ function DesktopSerpentineRoadmap({ items }: { items: WorkExperience[] }) {
   );
 }
 
-function MobileTimelineRoadmap({ items }: { items: WorkExperience[] }) {
+function MobileOrganicRoadmap({ items }: { items: WorkExperience[] }) {
   const listRef = useRef<HTMLDivElement>(null);
+  const [hoveredId, setHoveredId] = useState<string | null>(null);
   const { scrollYProgress } = useScroll({
     target: listRef,
     offset: ["start 80%", "end 70%"],
@@ -667,10 +683,9 @@ function MobileTimelineRoadmap({ items }: { items: WorkExperience[] }) {
 
   return (
     <div className="md:hidden relative">
-      {/* Mobile Start Badge */}
-      <div className="flex items-center gap-2 mb-5 pl-1">
-        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full glass border-primary/30 text-primary text-xs font-mono">
-          <Flag className="w-3 h-3" />
+      <div className="flex items-center justify-between mb-6 px-1">
+        <span className="inline-flex items-center gap-1.5 text-primary text-xs font-mono uppercase tracking-wider">
+          <Flag className="w-3.5 h-3.5" />
           Start ({items[0]?.years.split(" ")[0] ?? "2021"})
         </span>
         <span className="text-xs font-mono text-muted-foreground">
@@ -678,58 +693,51 @@ function MobileTimelineRoadmap({ items }: { items: WorkExperience[] }) {
         </span>
       </div>
 
-      <div ref={listRef} className="relative pl-12 space-y-5">
-        {/* Static background rail */}
-        <div className="absolute left-5 top-2 bottom-2 w-0.5 bg-border/70 -translate-x-1/2 rounded-full" />
+      <div ref={listRef} className="relative pl-16 space-y-8">
+        {/* Soft vertical rail */}
+        <div className="absolute left-6 top-3 bottom-3 w-[2px] bg-border/60 -translate-x-1/2 rounded-full" />
 
-        {/* Animated scroll progress rail */}
+        {/* Scroll-linked gradient progress rail */}
         <motion.div
           style={{ scaleY }}
-          className="absolute left-5 top-2 bottom-2 w-0.5 -translate-x-1/2 origin-top rounded-full bg-gradient-to-b from-violet-500 via-primary to-emerald-500"
+          className="absolute left-6 top-3 bottom-3 w-[2px] -translate-x-1/2 origin-top rounded-full bg-gradient-to-b from-violet-500 via-primary to-emerald-500"
         />
 
         {items.map((experience, index) => {
-          const style = getTypeStyle(experience.type);
           const stepNumber = String(index + 1).padStart(2, "0");
+          const isHovered = hoveredId === experience.id;
 
           return (
             <motion.div
               key={experience.id}
-              initial={{ opacity: 0, x: 20 }}
+              initial={{ opacity: 0, x: 16 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, margin: "-30px" }}
-              transition={{ duration: 0.4, delay: Math.min(index * 0.05, 0.25) }}
+              transition={{ duration: 0.4, delay: Math.min(index * 0.04, 0.2) }}
               className="relative"
             >
-              {/* Node icon on left rail */}
-              <div className="absolute -left-12 top-5 w-10 flex items-center justify-center">
-                <div
-                  className={`w-10 h-10 rounded-xl bg-gradient-to-br ${style.nodeGradient} flex items-center justify-center ring-4 ring-background shadow-md relative z-10`}
-                >
-                  {getNodeIcon(experience.type)}
-                </div>
-                {experience.isCurrent && (
-                  <motion.div
-                    className="absolute w-10 h-10 rounded-xl border-2 border-primary/50 pointer-events-none"
-                    animate={{ scale: [1, 1.35, 1], opacity: [0.5, 0, 0.5] }}
-                    transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
-                  />
-                )}
+              {/* Project icon directly on the left timeline rail */}
+              <div className="absolute -left-16 top-1 w-12 flex items-center justify-center z-10">
+                <ProjectMedallion
+                  experience={experience}
+                  isHovered={isHovered}
+                  size="mobile"
+                />
               </div>
 
-              {/* Short horizontal connector */}
-              <div className="absolute -left-2.5 top-10 w-3 h-0.5 bg-gradient-to-r from-primary/60 to-primary/20" />
-
-              <WorkCardContent experience={experience} stepNumber={stepNumber} />
+              <WaypointContent
+                experience={experience}
+                stepNumber={stepNumber}
+                onHoverChange={(h) => setHoveredId(h ? experience.id : null)}
+              />
             </motion.div>
           );
         })}
       </div>
 
-      {/* Mobile End Badge */}
-      <div className="flex items-center gap-2 mt-5 pl-1">
-        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-600 dark:text-emerald-400 text-xs font-mono">
-          <Sparkles className="w-3 h-3" />
+      <div className="flex items-center gap-2 mt-6 px-1">
+        <span className="inline-flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400 text-xs font-mono uppercase tracking-wider">
+          <Sparkles className="w-3.5 h-3.5" />
           Obecnie (2026)
         </span>
       </div>
@@ -768,7 +776,6 @@ export default function WorkSection() {
     <section id="work" className="py-24 relative" ref={ref}>
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-accent/5 to-transparent pointer-events-none" />
 
-      {/* Full-width responsive container for the serpentine roadmap */}
       <div className="w-full max-w-[1480px] mx-auto px-4 sm:px-6 lg:px-10 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -830,8 +837,8 @@ export default function WorkSection() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
           >
-            <DesktopSerpentineRoadmap items={filteredExperiences} />
-            <MobileTimelineRoadmap items={filteredExperiences} />
+            <DesktopOrganicRoadmap items={filteredExperiences} />
+            <MobileOrganicRoadmap items={filteredExperiences} />
           </motion.div>
         </AnimatePresence>
       </div>

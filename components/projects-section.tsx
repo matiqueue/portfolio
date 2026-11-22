@@ -94,19 +94,28 @@ function ProjectCard({ project, index }: ProjectCardProps) {
         <div className="p-5 flex flex-col flex-1">
           {/* Header row */}
           <div className="flex items-start justify-between gap-3 mb-2.5">
-            <div className="flex-1 min-w-0">
-              <div className="flex items-center gap-2 flex-wrap">
-                <h3 className="text-base font-bold tracking-tight leading-tight group-hover:text-primary transition-colors">
-                  {project.title}
-                </h3>
-                {project.badge && (
-                  <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold uppercase tracking-wider bg-primary/10 text-primary border border-primary/20">
-                    {project.badge}
-                  </span>
-                )}
-              </div>
-              <div className="mt-1.5">
-                <LanguageIcon language={project.language} />
+            <div className="flex items-start gap-3 flex-1 min-w-0">
+              {project.icon && (
+                <img
+                  src={project.icon}
+                  alt={project.title}
+                  className="w-11 h-11 rounded-xl object-cover flex-shrink-0 ring-1 ring-border/70 shadow-sm"
+                />
+              )}
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2 flex-wrap">
+                  <h3 className="text-base font-bold tracking-tight leading-tight group-hover:text-primary transition-colors">
+                    {project.title}
+                  </h3>
+                  {project.badge && (
+                    <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold uppercase tracking-wider bg-primary/10 text-primary border border-primary/20">
+                      {project.badge}
+                    </span>
+                  )}
+                </div>
+                <div className="mt-1.5">
+                  <LanguageIcon language={project.language} />
+                </div>
               </div>
             </div>
 
@@ -250,26 +259,21 @@ function FeaturedProjectCard({ project }: ProjectCardProps) {
               </div>
             </div>
 
-            {/* Language icon large */}
+            {/* Project App Icon */}
             <div className="relative z-10 flex flex-col items-center gap-4">
-              {(() => {
-                const meta = project.language ? LANG_META[project.language] : null;
-                if (meta) {
-                  const Icon = meta.icon;
-                  return (
-                    <div
-                      className={`w-20 h-20 rounded-2xl ${meta.bg} flex items-center justify-center ring-2 ring-border/50`}
-                    >
-                      <Icon className={`w-10 h-10 ${meta.color}`} />
-                    </div>
-                  );
-                }
-                return (
-                  <div className="w-20 h-20 rounded-2xl bg-muted flex items-center justify-center ring-2 ring-border/50">
-                    <SiGithub className="w-10 h-10 text-muted-foreground" />
-                  </div>
-                );
-              })()}
+              {project.icon ? (
+                <motion.img
+                  src={project.icon}
+                  alt={project.title}
+                  animate={{ scale: hovered ? 1.06 : 1, rotate: hovered ? -2 : 0 }}
+                  transition={{ type: "spring", stiffness: 260, damping: 20 }}
+                  className="w-24 h-24 rounded-[22px] object-cover shadow-2xl ring-2 ring-border/60"
+                />
+              ) : (
+                <div className="w-20 h-20 rounded-2xl bg-muted flex items-center justify-center ring-2 ring-border/50">
+                  <SiGithub className="w-10 h-10 text-muted-foreground" />
+                </div>
+              )}
 
               <span className="px-3 py-1.5 rounded-full bg-primary text-primary-foreground text-xs font-bold uppercase tracking-wider">
                 {project.badge ?? "Featured"}
