@@ -24,16 +24,18 @@ export default function Navbar() {
   const [activeSection, setActiveSection] = useState("home");
 
   useEffect(() => {
-    const handleScroll = () => {
+    let ticking = false;
+    const sectionIds = navItems.map((item) => item.href.replace("#", "")).reverse();
+
+    const updateOnScroll = () => {
+      ticking = false;
       setIsScrolled(window.scrollY > 50);
 
-      // Detect active section
-      const sections = navItems.map(item => item.href.replace("#", ""));
-      for (const section of sections.reverse()) {
+      for (const section of sectionIds) {
         const element = document.getElementById(section);
         if (element) {
           const rect = element.getBoundingClientRect();
-          if (rect.top <= 150) {
+          if (rect.top <= 160) {
             setActiveSection(section);
             break;
           }
@@ -41,7 +43,14 @@ export default function Navbar() {
       }
     };
 
-    window.addEventListener("scroll", handleScroll);
+    const handleScroll = () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(updateOnScroll);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 

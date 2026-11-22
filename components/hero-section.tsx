@@ -11,11 +11,14 @@ export default function HeroSection() {
       id="home"
       className="min-h-screen flex items-center justify-center relative overflow-hidden pt-24 md:pt-0"
     >
-      {/* Subtle background decoration */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-primary/5 blur-3xl" />
-        <div className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full bg-accent/5 blur-3xl" />
-      </div>
+      {/* Subtle background decoration via GPU-light radial gradient */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          backgroundImage:
+            "radial-gradient(380px circle at 28% 30%, hsl(var(--primary) / 0.08), transparent 70%), radial-gradient(340px circle at 76% 72%, hsl(var(--accent) / 0.08), transparent 70%)",
+        }}
+      />
 
       <div className="container mx-auto px-6 relative z-10">
         {/* Two-column layout */}

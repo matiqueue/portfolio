@@ -99,7 +99,7 @@ function ProjectCard({ project, index }: ProjectCardProps) {
                 <img
                   src={project.icon}
                   alt={project.title}
-                  className="w-11 h-11 rounded-xl object-cover flex-shrink-0 ring-1 ring-border/70 shadow-sm"
+                  className="w-11 h-11 rounded-[12px] object-contain flex-shrink-0 drop-shadow-[0_4px_10px_rgba(0,0,0,0.2)]"
                 />
               )}
               <div className="flex-1 min-w-0">
@@ -267,7 +267,7 @@ function FeaturedProjectCard({ project }: ProjectCardProps) {
                   alt={project.title}
                   animate={{ scale: hovered ? 1.06 : 1, rotate: hovered ? -2 : 0 }}
                   transition={{ type: "spring", stiffness: 260, damping: 20 }}
-                  className="w-24 h-24 rounded-[22px] object-cover shadow-2xl ring-2 ring-border/60"
+                  className="w-24 h-24 object-contain drop-shadow-[0_14px_26px_rgba(0,0,0,0.3)]"
                 />
               ) : (
                 <div className="w-20 h-20 rounded-2xl bg-muted flex items-center justify-center ring-2 ring-border/50">

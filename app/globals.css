@@ -98,14 +98,14 @@
   }
 
   .glass {
-    @apply backdrop-blur-xl border;
-    background-color: hsl(var(--card) / 0.8);
-    border-color: hsl(var(--border) / 0.5);
+    @apply backdrop-blur-md border;
+    background-color: hsl(var(--card) / 0.84);
+    border-color: hsl(var(--border) / 0.55);
   }
 
   .glass-strong {
-    @apply backdrop-blur-2xl border;
-    background-color: hsl(var(--card) / 0.9);
+    @apply backdrop-blur-lg border;
+    background-color: hsl(var(--card) / 0.92);
     border-color: hsl(var(--border) / 0.6);
   }
 
