@@ -1,257 +1,357 @@
+import { type IconType as ReactIconType } from "react-icons";
 import {
   SiTypescript,
-  SiJavascript,
   SiReact,
   SiNextdotjs,
   SiNodedotjs,
   SiExpress,
   SiPython,
+  SiDjango,
   SiMongodb,
-  SiHtml5,
-  SiCss3,
-  SiAmazonaws,
-  SiSupabase,
-  SiFirebase,
+  SiPostgresql,
+  SiRedis,
   SiRedux,
+  SiVite,
+  SiThreedotjs,
+  SiExpo,
   SiGit,
   SiDocker,
-  SiBootstrap,
-  SiMui,
+  SiLinux,
+  SiGnubash,
+  SiCloudflare,
+  SiNginx,
+  SiPostman,
+  SiVercel,
+  SiFigma,
   SiPrisma,
   SiFlutter,
-  SiHeroku,
   SiTailwindcss,
 } from "react-icons/si";
 
-export const skills = [
+export interface SkillItem {
+  icon: ReactIconType;
+  text: string;
+}
+
+export interface SkillCategory {
+  id: string;
+  title: string;
+  subtitle: string;
+  items: SkillItem[];
+}
+
+export const skillCategories: SkillCategory[] = [
   {
-    icon: SiTypescript,
-    text: "TypeScript",
+    id: "frontend",
+    title: "Frontend & UI",
+    subtitle: "Nowoczesne interfejsy webowe, mobilne i 3D",
+    items: [
+      { icon: SiNextdotjs, text: "Next.js" },
+      { icon: SiReact, text: "React" },
+      { icon: SiTypescript, text: "TypeScript" },
+      { icon: SiTailwindcss, text: "Tailwind CSS" },
+      { icon: SiRedux, text: "Redux" },
+      { icon: SiVite, text: "Vite" },
+      { icon: SiThreedotjs, text: "Three.js" },
+      { icon: SiExpo, text: "Expo / RN" },
+      { icon: SiFlutter, text: "Flutter" },
+    ],
   },
   {
-    icon: SiJavascript,
-    text: "JavaScript",
+    id: "backend",
+    title: "Backend & Data",
+    subtitle: "Wydajne API, bazy relacyjne i NoSQL",
+    items: [
+      { icon: SiPython, text: "Python" },
+      { icon: SiDjango, text: "Django" },
+      { icon: SiNodedotjs, text: "Node.js" },
+      { icon: SiExpress, text: "Express" },
+      { icon: SiPostgresql, text: "PostgreSQL" },
+      { icon: SiMongodb, text: "MongoDB" },
+      { icon: SiPrisma, text: "Prisma" },
+      { icon: SiRedis, text: "Redis" },
+    ],
   },
   {
-    icon: SiReact,
-    text: "React",
-  },
-  {
-    icon: SiNextdotjs,
-    text: "Next",
-  },
-  {
-    icon: SiTailwindcss,
-    text: "Tailwind",
-  },
-  {
-    icon: SiRedux,
-    text: "Redux",
-  },
-  {
-    icon: SiFlutter,
-    text: "Flutter",
-  },
-  {
-    icon: SiHtml5,
-    text: "HTML5",
-  },
-  {
-    icon: SiCss3,
-    text: "CSS3",
-  },
-  {
-    icon: SiNodedotjs,
-    text: "Node",
-  },
-  {
-    icon: SiExpress,
-    text: "Express",
-  },
-  {
-    icon: SiMongodb,
-    text: "MongoDB",
-  },
-  {
-    icon: SiHeroku,
-    text: "Heroku",
-  },
-  {
-    icon: SiGit,
-    text: "Git",
-  },
-  {
-    icon: SiPrisma,
-    text: "Prisma",
-  },
-  {
-    icon: SiBootstrap,
-    text: "Bootstrap",
+    id: "tools",
+    title: "Tools & Cloud",
+    subtitle: "Konteneryzacja, infrastruktura i design",
+    items: [
+      { icon: SiDocker, text: "Docker" },
+      { icon: SiLinux, text: "Linux" },
+      { icon: SiGnubash, text: "Bash" },
+      { icon: SiCloudflare, text: "Cloudflare" },
+      { icon: SiNginx, text: "Nginx" },
+      { icon: SiVercel, text: "Vercel" },
+      { icon: SiPostman, text: "Postman" },
+      { icon: SiFigma, text: "Figma" },
+      { icon: SiGit, text: "Git" },
+    ],
   },
 ];
+
+export const skills: SkillItem[] = skillCategories.flatMap((category) => category.items);
 
 export interface Project {
   title: string;
   description: string;
-  link: string;
-  emoji: string;
-  technologies?: string[];
+  repoUrl?: string;
+  demoUrl?: string;
+  repoSlug?: string;
+  technologies: string[];
   stars?: number;
   forks?: number;
-  language?: string;
+  language: string;
+  badge?: string;
 }
 
 export const projects: Project[] = [
   {
+    title: "Aven Mail",
+    description:
+      "Błyskawiczny klient poczty e-mail stworzony z myślą o obsłudze klawiaturą (keyboard-first) na macOS, Windows, Linux oraz web. Zbudowany w architekturze local-first z Tauri, React i Rust, ze wsparciem AI i pełnym skupieniem na prywatności.",
+    demoUrl: "https://get-aven.com",
+    repoSlug: "get-aven.com",
+    technologies: ["Tauri", "Rust", "React", "Next.js", "TypeScript", "Tailwind CSS"],
+    language: "TypeScript",
+    badge: "Flagship Product",
+  },
+  {
+    title: "Rift Daily",
+    description:
+      "Nowoczesny, szybki mobilny e-Dziennik studencki USOS na iOS i Androida w stylu Bento Grid. Zbudowany w React Native i Expo z automatycznym budowaniem wydań APK w GitHub Actions.",
+    repoUrl: "https://github.com/matiqueue/rift-daily",
+    demoUrl: "https://rift-daily.vercel.app",
+    repoSlug: "matiqueue/rift-daily",
+    technologies: ["React Native", "Expo", "TypeScript", "USOS API"],
+    stars: 6,
+    language: "TypeScript",
+  },
+  {
+    title: "Iron Routine",
+    description:
+      "Monochromatyczny dziennik treningu siłowego na iOS, Androida i web działający w pełni offline-first. Zawiera interaktywną mapę anatomii 2D oraz szyfrowany komunikator E2EE.",
+    repoUrl: "https://github.com/matiqueue/iron-routine",
+    demoUrl: "https://iron-routine-app.vercel.app",
+    repoSlug: "matiqueue/iron-routine",
+    technologies: ["React Native", "Expo", "TypeScript", "PostgreSQL"],
+    stars: 3,
+    language: "TypeScript",
+  },
+  {
     title: "Mate Chess",
-    description: "Zaawansowana platforma szachowa z funkcjami gry online w czasie rzeczywistym, analizy partii z wykorzystaniem silnika szachowego, nauki strategii oraz rankingiem graczy. Projekt wykorzystuje nowoczesny stack technologiczny.",
-    link: "https://github.com/matiqueue/mate-chess.pl",
-    emoji: "chess",
-    technologies: ["Next.js", "TypeScript", "MongoDB", "Socket.io", "Tailwind CSS"],
-    stars: 5,
+    description:
+      "Platforma szachowa w architekturze monorepo (web, desktop i serwer gry) umożliwiająca rozgrywki online w czasie rzeczywistym, grę z botem oraz partie lokalne.",
+    repoUrl: "https://github.com/matiqueue/mate-chess",
+    demoUrl: "https://getmatechess.vercel.app",
+    repoSlug: "matiqueue/mate-chess",
+    technologies: ["Next.js", "Tauri", "TypeScript", "Turborepo"],
+    stars: 4,
     forks: 2,
     language: "TypeScript",
   },
   {
-    title: "Portfolio",
-    description: "Moje osobiste portfolio napisane w Next.js z nowoczesnym designem, animacjami 3D oraz mozliwoscia pobierania CV. Strona prezentuje moje projekty i umiejetnosci.",
-    link: "https://github.com/matiqueue/Portfolio",
-    emoji: "palette",
-    technologies: ["Next.js", "TypeScript", "Tailwind CSS", "Framer Motion"],
-    stars: 3,
-    forks: 1,
+    title: "Ayla AI",
+    description:
+      "Konwersacyjny asystent AI oparty o przetwarzanie języka naturalnego (NLP), wspierający organizację zadań, szybkie odpowiedzi i automatyzację codziennej pracy.",
+    repoUrl: "https://github.com/matiqueue/Ayla-AI",
+    repoSlug: "matiqueue/Ayla-AI",
+    technologies: ["TypeScript", "Next.js", "NLP", "AI"],
+    stars: 5,
     language: "TypeScript",
   },
   {
-    title: "MineMaster AI",
-    description: "Inteligentny asystent AI do gry Minecraft, wykorzystujacy uczenie maszynowe do pomocy w budowaniu struktur i automatyzacji zadan w grze.",
-    link: "https://github.com/matiqueue/MineMaster-AI",
-    emoji: "pickaxe",
-    technologies: ["Python", "TensorFlow", "JavaScript"],
-    stars: 8,
-    forks: 3,
-    language: "Python",
+    title: "Klucze Rowerowe",
+    description:
+      "Komercyjny sklep e-commerce z przejrzystym katalogiem produktów, obsługą zamówień i integracjami płatności. Zaprojektowany z myślą o szybkości działania i responsywności.",
+    demoUrl: "https://kluczerowerowe.pl",
+    repoSlug: "kluczerowerowe.pl",
+    technologies: ["Next.js", "TypeScript", "E-commerce", "Tailwind CSS"],
+    language: "TypeScript",
+    badge: "Commercial",
   },
   {
-    title: "DiscordDB",
-    description: "Innowacyjny system bazy danych zintegrowany z Discordem, umozliwiajacy przechowywanie i zarzadzanie danymi bezposrednio przez bota Discord.",
-    link: "https://github.com/matiqueue/DiscordDB",
-    emoji: "gamepad",
-    technologies: ["JavaScript", "Discord.js", "Node.js"],
-    stars: 12,
-    forks: 4,
-    language: "JavaScript",
+    title: "Portfolio",
+    description:
+      "Moje osobiste portfolio zbudowane na Next.js 16 i React 19 z płynnymi animacjami Framer Motion, trybem jasnym i ciemnym oraz interaktywną mapą ścieżki zawodowej.",
+    repoUrl: "https://github.com/matiqueue/portfolio",
+    demoUrl: "https://matiqueue-portfolio.vercel.app",
+    repoSlug: "matiqueue/portfolio",
+    technologies: ["Next.js", "React 19", "TypeScript", "Framer Motion"],
+    stars: 1,
+    language: "TypeScript",
   },
 ];
 
+export type WorkType = "school" | "project" | "job";
+export type WorkIconType =
+  | "school"
+  | "github"
+  | "console"
+  | "server"
+  | "chess"
+  | "bike"
+  | "building"
+  | "mail"
+  | "smartphone"
+  | "code";
+
 export interface WorkExperience {
+  id: string;
+  type: WorkType;
   company: string;
-  logo: string;
+  logo?: string;
   position: string;
   description: string;
   years: string;
-  skills?: string[];
+  skills: string[];
   link?: string;
-  iconType?: "school" | "github" | "console" | "server" | "chess" | "bike" | "code";
+  linkLabel?: string;
+  iconType: WorkIconType;
+  isCurrent?: boolean;
 }
 
-export interface WorkExperienceType {
-  type: "school" | "project" | "job";
-}
-
-export const workExperiences: (WorkExperience & WorkExperienceType)[] = [
+export const workExperiences: WorkExperience[] = [
   {
+    id: "technikum",
     type: "school",
-    company: "Szkola im. Antoniego Kocjana w Olkuszu",
-    logo: "",
+    company: "Technikum im. Antoniego Kocjana",
     position: "Technik programista",
-    description: "Nauka programowania w specjalizacji technik programista. Zdobywanie podstaw algorytmiki, programowania obiektowego, baz danych oraz tworzenia aplikacji webowych i desktopowych. Realizacja projektow szkolnych i rozwijanie umiejetnosci praktycznych.",
-    years: "2021 - Obecnie",
-    skills: ["Algorytmika", "Programowanie", "Bazy danych"],
+    description:
+      "Solidne fundamenty inżynierii oprogramowania w Olkuszu: algorytmika, programowanie obiektowe, bazy danych oraz pierwsze aplikacje webowe i desktopowe.",
+    years: "2021 - 2026",
+    skills: ["Algorytmika", "OOP", "SQL", "Web Dev"],
     iconType: "school",
   },
   {
-    type: "job",
-    company: "Projekty Open Source",
-    logo: "",
-    position: "Fullstack Developer",
-    description: "Aktywny wklad w spolecznosc open source poprzez tworzenie i rozwijanie projektow publicznych na GitHubie. Budowanie narzedzi dla developerow i graczy.",
+    id: "open-source",
+    type: "project",
+    company: "Open Source & GitHub",
+    position: "Full-Stack Developer",
+    description:
+      "Regularne tworzenie i publikowanie projektów open source na GitHubie. Budowanie narzędzi developerskich, aplikacji użytkowych i eksperymenty z nowymi technologiami.",
     years: "2022 - Obecnie",
-    skills: ["Open Source", "Community", "Collaboration"],
+    skills: ["Open Source", "TypeScript", "CI/CD"],
     link: "https://github.com/matiqueue",
+    linkLabel: "Profil GitHub",
     iconType: "github",
   },
   {
+    id: "konsola",
     type: "project",
     company: "Konsola Operatorska",
-    logo: "",
-    position: "Projekt szkolny / Developer",
-    description: "Aplikacja konsoli operatorskiej stworzona w ramach projektu szkolnego — panel zarzadzania z analitykami zbieranymi przez Hotjar. Realizacja pelnego cyklu: projekt, implementacja, wdrozenie.",
-    years: "2023",
-    skills: ["Web App", "Analytics", "Hotjar"],
+    position: "Full-Stack Developer",
+    description:
+      "Aplikacja panelu zarządzania stworzona jako projekt szkolny, wzbogacona o analitykę zachowań użytkowników w Hotjar. Pełny cykl od projektu po wdrożenie.",
+    years: "2023 - 2024",
+    skills: ["TypeScript", "Web App", "Hotjar"],
     link: "https://github.com/matiqueue/konsola-operatorska",
+    linkLabel: "Zobacz na GitHub",
     iconType: "console",
   },
   {
+    id: "sg-system",
     type: "job",
     company: "SG-System",
-    logo: "",
-    position: "Web Developer",
-    description: "Zaprojektowanie i wdrozenie kompletnej strony internetowej sg-system.pl. Odpowiedzialny za frontend, backend oraz optymalizacje SEO. Praca z klientem nad wymaganiami i iteracyjne dostarczanie funkcjonalnosci.",
+    position: "Web Developer (Freelance)",
+    description:
+      "Zaprojektowanie i wdrożenie kompletnej strony firmowej sg-system.pl. Odpowiedzialność za frontend, wydajność, techniczne SEO i współpracę z klientem.",
     years: "2024",
-    skills: ["Frontend", "Backend", "SEO"],
+    skills: ["Frontend", "SEO", "UI/UX"],
+    link: "https://sg-system.pl",
+    linkLabel: "Odwiedź sg-system.pl",
     iconType: "server",
   },
   {
+    id: "mate-chess",
     type: "project",
-    company: "Mate Chess",
-    logo: "",
+    company: "Mate Chess & Ayla AI",
     position: "Lead Developer",
-    description: "Zaawansowana platforma szachowa z funkcjami gry online w czasie rzeczywistym, analizy partii z wykorzystaniem silnika szachowego, nauki strategii oraz rankingiem graczy. Projekt wykorzystuje nowoczesny stack technologiczny.",
+    description:
+      "Platforma szachowa w monorepo (Next.js + Tauri) do gry online w czasie rzeczywistym i z botem oraz konwersacyjny asystent Ayla AI oparty o NLP.",
     years: "2025",
-    skills: ["Next.js", "TypeScript", "MongoDB", "Socket.io"],
-    link: "https://github.com/matiqueue/mate-chess.pl",
+    skills: ["Next.js", "Tauri", "Turborepo", "WebSockets"],
+    link: "https://github.com/matiqueue/mate-chess",
+    linkLabel: "Zobacz na GitHub",
     iconType: "chess",
   },
   {
+    id: "klucze-rowerowe",
     type: "job",
-    company: "Klucze-Rowerowe",
-    logo: "",
-    position: "Web Developer",
-    description: "Stworzenie strony e-commerce klucze-rowerowe.pl z katalogiem produktow, systemem zamowien i integracjami platnosci. Implementacja responsywnego designu i optymalizacja wydajnosci.",
+    company: "Klucze Rowerowe",
+    position: "Full-Stack Developer (Freelance)",
+    description:
+      "Wdrożenie platformy e-commerce kluczerowerowe.pl z katalogiem produktów, koszykiem, obsługą zamówień oraz integracjami płatności online.",
     years: "2026",
-    skills: ["E-commerce", "Payments", "UX"],
+    skills: ["Next.js", "TypeScript", "E-commerce", "Payments"],
+    link: "https://kluczerowerowe.pl",
+    linkLabel: "Odwiedź sklep",
     iconType: "bike",
   },
   {
+    id: "granteam",
     type: "job",
-    company: "Freelance",
-    logo: "",
-    position: "Junior Developer",
-    description: "Poczatek przygody z programowaniem. Nauka podstaw web developmentu, tworzenie pierwszych projektow i budowanie portfolio. Zdobywanie doswiadczenia poprzez praktyczne projekty.",
+    company: "GranTeam",
+    position: "Full-Stack Engineer",
+    description:
+      "Komercyjna praca nad zaawansowanymi platformami webowymi i systemami dla klientów w oparciu o Python, Django, Next.js, TypeScript, PostgreSQL, Redis i Docker.",
     years: "2026 - Obecnie",
-    skills: ["Learning", "Web Basics", "Portfolio"],
-    iconType: "code",
+    skills: ["Python", "Django", "Next.js", "PostgreSQL", "Docker"],
+    iconType: "building",
+    isCurrent: true,
+  },
+  {
+    id: "aven-mail",
+    type: "project",
+    company: "Aven Mail",
+    position: "Creator & Lead Engineer",
+    description:
+      "Flagowy klient poczty e-mail typu keyboard-first na desktop i web. Architektura local-first w Tauri, React i Rust wraz z pełnym ekosystemem webowym.",
+    years: "2026 - Obecnie",
+    skills: ["Tauri", "Rust", "React", "Next.js"],
+    link: "https://get-aven.com",
+    linkLabel: "Odwiedź get-aven.com",
+    iconType: "mail",
+    isCurrent: true,
+  },
+  {
+    id: "mobile-suite",
+    type: "project",
+    company: "Rift Daily & Iron Routine",
+    position: "Mobile Product Developer",
+    description:
+      "Dwie aplikacje mobilne na iOS i Androida w React Native i Expo: szybki e-Dziennik studencki USOS w stylu Bento Grid oraz offline-first dziennik treningowy z E2EE.",
+    years: "2026 - Obecnie",
+    skills: ["React Native", "Expo", "Offline-First", "E2EE"],
+    link: "https://rift-daily.vercel.app",
+    linkLabel: "Zobacz Rift Daily",
+    iconType: "smartphone",
+    isCurrent: true,
   },
 ];
 
 export const aboutYou = {
   name: "Szymon Góral",
+  role: "Full-Stack Engineer @ GranTeam",
   description:
-    "👋 Czesc, jestem Szymon! Jestem fullstack developerem specjalizujacym sie w tworzeniu nowoczesnych aplikacji webowych. Pracuje glownie z Next.js, TypeScript i MongoDB. Pasjonuje sie budowaniem intuicyjnych interfejsow uzytkownika oraz skalowalnych rozwiazn backendowych.",
+    "Cześć, jestem Szymon! Jestem Full-Stack Engineerem pracującym komercyjnie z Next.js, TypeScript oraz Python / Django. Tworzę wydajne aplikacje webowe, mobilne i desktopowe z naciskiem na czystą architekturę i dopracowany UI/UX.",
   yearsOfExperience: "Od 2021",
-  location: "Olkusz, Polska",
+  location: "Kraków, Polska",
   email: "szymon.goral@icloud.com",
+  github: "https://github.com/matiqueue",
+  linkedin: "https://www.linkedin.com/in/szymon-g%C3%B3ral-214b232b2/",
+  discord: "https://discord.com/users/matiqueue",
 };
 
 export const logoText = "@matiqueue";
 
 export const marketingHeadlines = {
-  mainHeadline: "Czesc, witaj na moim portfolio!",
-  subHeadline: "Fullstack Developer | UI/UX Enthusiast | Next.js & TypeScript",
+  mainHeadline: "Cześć, witaj na moim portfolio!",
+  subHeadline: "Full-Stack Engineer | Next.js, TypeScript & Python / Django",
 };
 
 export const websiteMetadata = {
-  title: "Szymon Góral | Fullstack Developer Portfolio",
-  description: "Portfolio Szymona Górala - Fullstack Developer specjalizujacy sie w Next.js, TypeScript i MongoDB. Zobacz moje projekty i doswiadczenie.",
+  title: "Szymon Góral | Full-Stack Engineer Portfolio",
+  description:
+    "Portfolio Szymona Górala, Full-Stack Engineera pracującego z Next.js, TypeScript, Python/Django i React Native. Zobacz moje projekty i ścieżkę zawodową.",
 };

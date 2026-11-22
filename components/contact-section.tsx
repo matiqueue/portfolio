@@ -3,15 +3,18 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { aboutYou } from "@/lib/data";
-import { Mail, Send, Github, Linkedin, ArrowUpRight } from "lucide-react";
+import { Mail, Send, ArrowUpRight } from "lucide-react";
+import { SiGithub, SiDiscord } from "react-icons/si";
+import { FaLinkedinIn } from "react-icons/fa6";
 
 export default function ContactSection() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   const socialLinks = [
-    { icon: Github, href: "https://github.com/matiqueue", label: "GitHub" },
-    { icon: Linkedin, href: "https://www.linkedin.com/in/szymon-g%C3%B3ral-214b232b2/", label: "LinkedIn" },
+    { icon: SiGithub, href: aboutYou.github, label: "GitHub" },
+    { icon: FaLinkedinIn, href: aboutYou.linkedin, label: "LinkedIn" },
+    { icon: SiDiscord, href: aboutYou.discord, label: "Discord" },
   ];
 
   return (
@@ -35,7 +38,6 @@ export default function ContactSection() {
         </motion.div>
 
         <div className="max-w-4xl mx-auto">
-          {/* Main content - no card, clean layout */}
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -55,7 +57,8 @@ export default function ContactSection() {
             {/* Text */}
             <div className="space-y-4">
               <p className="text-foreground/70 text-lg max-w-lg mx-auto">
-                Have a project in mind? Let&apos;s discuss how I can help bring your ideas to life.
+                Masz ciekawy pomysł, ambitny produkt do wdrożenia albo wyzwanie inżynierskie?
+                Napisz do mnie i porozmawiajmy o współpracy.
               </p>
             </div>
 
@@ -64,22 +67,24 @@ export default function ContactSection() {
               href={`mailto:${aboutYou.email}`}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              className="inline-flex items-center gap-3 px-8 py-4 bg-primary text-primary-foreground rounded-xl font-semibold text-lg transition-all hover:shadow-lg hover:shadow-primary/25"
+              className="inline-flex items-center gap-3 px-6 sm:px-8 py-4 bg-primary text-primary-foreground rounded-xl font-semibold text-base sm:text-lg transition-all hover:shadow-lg hover:shadow-primary/25 max-w-full"
             >
-              <Send className="w-5 h-5" />
-              {aboutYou.email}
-              <ArrowUpRight className="w-5 h-5" />
+              <Send className="w-5 h-5 flex-shrink-0" />
+              <span className="truncate">{aboutYou.email}</span>
+              <ArrowUpRight className="w-5 h-5 flex-shrink-0" />
             </motion.a>
 
             {/* Divider */}
             <div className="flex items-center justify-center gap-4 pt-6">
               <div className="h-px w-16 bg-border" />
-              <span className="text-xs text-foreground/50 uppercase tracking-widest">or connect</span>
+              <span className="text-xs text-foreground/50 uppercase tracking-widest">
+                albo znajdź mnie tutaj
+              </span>
               <div className="h-px w-16 bg-border" />
             </div>
 
-            {/* Social links - horizontal row */}
-            <div className="flex items-center justify-center gap-6">
+            {/* Social links */}
+            <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6">
               {socialLinks.map((social, index) => {
                 const Icon = social.icon;
                 return (
@@ -91,11 +96,11 @@ export default function ContactSection() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={isInView ? { opacity: 1, y: 0 } : {}}
                     transition={{ delay: 0.6 + index * 0.1 }}
-                    whileHover={{ scale: 1.1, y: -3 }}
+                    whileHover={{ scale: 1.08, y: -3 }}
                     whileTap={{ scale: 0.95 }}
-                    className="flex items-center gap-2 px-4 py-2 rounded-lg border border-border/50 hover:border-primary/50 transition-colors group"
+                    className="flex items-center gap-2 px-4 py-2.5 rounded-xl glass border border-border/50 hover:border-primary/50 transition-colors group"
                   >
-                    <Icon className="w-5 h-5 text-foreground/60 group-hover:text-primary transition-colors" />
+                    <Icon className="w-4 h-4 text-foreground/60 group-hover:text-primary transition-colors" />
                     <span className="text-sm text-foreground/70 group-hover:text-foreground transition-colors">
                       {social.label}
                     </span>

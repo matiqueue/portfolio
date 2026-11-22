@@ -3,13 +3,29 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { aboutYou } from "@/lib/data";
-import { MapPin, Mail, Code2, Layers, Cpu, Globe } from "lucide-react";
+import { MapPin, Mail, Layers, Smartphone, Cpu, Sparkles } from "lucide-react";
 
 const interests = [
-  { icon: Code2, label: "Open Source", desc: "Aktywny contributor na GitHubie" },
-  { icon: Layers, label: "Full-Stack", desc: "Frontend i backend w jednym" },
-  { icon: Cpu, label: "AI & Automatyzacja", desc: "Uczenie maszynowe w praktyce" },
-  { icon: Globe, label: "Web Performance", desc: "Szybkie, dostępne interfejsy" },
+  {
+    icon: Layers,
+    label: "Full-Stack Web",
+    desc: "Next.js, TypeScript oraz Python / Django",
+  },
+  {
+    icon: Smartphone,
+    label: "Mobile & Desktop",
+    desc: "React Native, Expo, Tauri i Rust",
+  },
+  {
+    icon: Cpu,
+    label: "Clean Architecture",
+    desc: "Skalowalne systemy, PostgreSQL i Redis",
+  },
+  {
+    icon: Sparkles,
+    label: "Fluid UI/UX",
+    desc: "Dopracowane, szybkie i responsywne interfejsy",
+  },
 ];
 
 export default function AboutSection() {
@@ -20,7 +36,6 @@ export default function AboutSection() {
     <section id="about" className="py-20 relative" ref={ref}>
       <div className="container mx-auto px-6">
         <div className="space-y-10 max-w-5xl mx-auto">
-
           {/* Label */}
           <motion.span
             initial={{ opacity: 0 }}
@@ -48,7 +63,9 @@ export default function AboutSection() {
             transition={{ delay: 0.4, duration: 0.6 }}
             className="text-muted-foreground text-lg leading-relaxed -mt-4"
           >
-            Jestem fullstack developerem z Olkusza, specjalizującym się w tworzeniu nowoczesnych aplikacji webowych. Pracuję głównie z Next.js, TypeScript i MongoDB — lubię budować zarówno intuicyjne interfejsy, jak i solidne backendy.
+            Jestem Full-Stack Engineerem pracującym komercyjnie w GranTeam, gdzie na co dzień
+            rozwijam platformy webowe i architekturę backendową w oparciu o Python, Django, Next.js
+            oraz TypeScript. Łączę solidne fundamenty backendowe z dbałością o czysty, płynny UI/UX.
           </motion.p>
 
           {/* Second paragraph */}
@@ -58,7 +75,11 @@ export default function AboutSection() {
             transition={{ delay: 0.48, duration: 0.6 }}
             className="text-muted-foreground leading-relaxed -mt-2"
           >
-            Programuję od 2021 roku — zacząłem od podstaw web developmentu, a dziś realizuję komercyjne projekty dla klientów i rozwijam własne narzędzia open source. Uczę się w Technikum Programistycznym im. Antoniego Kocjana w Olkuszu, gdzie zdobywam solidne podstawy algorytmiki i inżynierii oprogramowania.
+            Programuję od 2021 roku. Zaczynałem od podstaw web developmentu w Technikum
+            Programistycznym im. Antoniego Kocjana w Olkuszu, a dzisiaj realizuję komercyjne
+            systemy, aplikacje mobilne (React Native / Expo) oraz desktopowe w Tauri i Rust. Po
+            godzinach rozwijam własne produkty takie jak Aven Mail, Rift Daily czy Iron Routine, a w
+            wolnym czasie pasjonuję się siatkówką i szachami.
           </motion.p>
 
           {/* Interests grid */}
@@ -95,16 +116,16 @@ export default function AboutSection() {
               <p className="text-sm text-muted-foreground">Doświadczenie</p>
             </div>
             <div className="glass rounded-xl px-6 py-4 glow-sm">
-              <p className="text-2xl font-bold text-primary">4+</p>
-              <p className="text-sm text-muted-foreground">Projektów publicznych</p>
+              <p className="text-2xl font-bold text-primary">GranTeam</p>
+              <p className="text-sm text-muted-foreground">Full-Stack Engineer</p>
             </div>
             <div className="glass rounded-xl px-6 py-4 glow-sm">
-              <p className="text-2xl font-bold text-primary">3</p>
-              <p className="text-sm text-muted-foreground">Klientów komercyjnych</p>
+              <p className="text-2xl font-bold text-primary">15+</p>
+              <p className="text-sm text-muted-foreground">Wdrożonych projektów</p>
             </div>
             <div className="glass rounded-xl px-6 py-4 glow-sm">
-              <p className="text-2xl font-bold text-primary">Otwarty</p>
-              <p className="text-sm text-muted-foreground">Na współpracę</p>
+              <p className="text-2xl font-bold text-primary">Web / Mobile</p>
+              <p className="text-sm text-muted-foreground">oraz aplikacje desktop</p>
             </div>
           </motion.div>
 
@@ -127,7 +148,6 @@ export default function AboutSection() {
               {aboutYou.email}
             </a>
           </motion.div>
-
         </div>
       </div>
     </section>

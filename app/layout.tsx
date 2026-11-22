@@ -4,13 +4,13 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { websiteMetadata } from "@/lib/data";
 
-const inter = Inter({ 
-  subsets: ["latin"],
+const inter = Inter({
+  subsets: ["latin", "latin-ext"],
   variable: "--font-inter",
 });
 
-const jetbrainsMono = JetBrains_Mono({ 
-  subsets: ["latin"],
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin", "latin-ext"],
   variable: "--font-jetbrains",
 });
 
@@ -32,13 +32,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable} bg-background`} suppressHydrationWarning>
+    <html
+      lang="pl"
+      className={`${inter.variable} ${jetbrainsMono.variable} bg-background`}
+      suppressHydrationWarning
+    >
       <body className="font-sans antialiased">
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
-          <div className="relative min-h-screen">
-            {/* ── Background decorative layer ── */}
+          <div className="relative min-h-screen overflow-x-clip">
+            {/* Background decorative layer */}
 
-            {/* Large ambient blobs — stronger in light mode */}
+            {/* Large ambient blobs, stronger in light mode */}
             <div className="fixed top-0 left-1/4 w-[580px] h-[580px] bg-primary/15 dark:bg-primary/6 rounded-full blur-[130px] pointer-events-none" />
             <div className="fixed bottom-0 right-1/4 w-[540px] h-[540px] bg-accent/12 dark:bg-accent/6 rounded-full blur-[130px] pointer-events-none" />
 
@@ -54,7 +58,7 @@ export default function RootLayout({
             <div className="fixed bottom-[20%] left-[40%] w-20 h-20 bg-accent/14 dark:bg-accent/6 rounded-full blur-[35px] pointer-events-none" />
             <div className="fixed top-[80%] right-[35%] w-24 h-24 bg-primary/12 dark:bg-primary/4 rounded-full blur-[45px] pointer-events-none" />
 
-            {/* Dot-grid overlay — more visible in light mode */}
+            {/* Dot-grid overlay, more visible in light mode */}
             <div
               className="fixed inset-0 pointer-events-none opacity-[0.06] dark:opacity-[0.015]"
               style={{
@@ -64,7 +68,7 @@ export default function RootLayout({
               }}
             />
 
-            {/* Diagonal lines — more visible in light mode */}
+            {/* Diagonal lines, more visible in light mode */}
             <div
               className="fixed inset-0 pointer-events-none opacity-[0.04] dark:opacity-[0.02]"
               style={{

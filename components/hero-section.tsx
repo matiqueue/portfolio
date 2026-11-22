@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { aboutYou, marketingHeadlines } from "@/lib/data";
-import { ArrowDown, MapPin } from "lucide-react";
+import { ArrowDown, MapPin, Briefcase } from "lucide-react";
 import ActionButton from "./action-button";
 
 export default function HeroSection() {
@@ -20,25 +20,33 @@ export default function HeroSection() {
       <div className="container mx-auto px-6 relative z-10">
         {/* Two-column layout */}
         <div className="grid grid-cols-1 md:grid-cols-[1fr_minmax(320px,460px)] gap-0 md:gap-8 lg:gap-12 items-end max-w-6xl mx-auto">
-
-          {/* ── LEFT: text content ── */}
+          {/* LEFT: text content */}
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.55 }}
             className="space-y-7 text-left pb-16 md:pb-24"
           >
-            {/* Location badge */}
+            {/* Location + current role badges */}
             <motion.div
               initial={{ opacity: 0, scale: 0.92 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.1, duration: 0.4 }}
-              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full glass glow-sm"
+              className="flex flex-wrap items-center gap-2.5"
             >
-              <MapPin className="w-3.5 h-3.5 text-primary" />
-              <span className="text-xs font-medium tracking-wide text-foreground/80 uppercase">
-                {aboutYou.location}
-              </span>
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full glass glow-sm">
+                <MapPin className="w-3.5 h-3.5 text-primary" />
+                <span className="text-xs font-medium tracking-wide text-foreground/80 uppercase">
+                  {aboutYou.location}
+                </span>
+              </div>
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full glass border-emerald-500/30">
+                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                <Briefcase className="w-3.5 h-3.5 text-emerald-500" />
+                <span className="text-xs font-medium tracking-wide text-foreground/80">
+                  {aboutYou.role}
+                </span>
+              </div>
             </motion.div>
 
             {/* Name */}
@@ -87,12 +95,16 @@ export default function HeroSection() {
               className="flex flex-wrap items-end gap-8"
             >
               <div className="space-y-0.5">
-                <p className="text-3xl md:text-4xl font-bold text-foreground tabular-nums">{aboutYou.yearsOfExperience}</p>
-                <p className="text-xs text-foreground/50 uppercase tracking-widest">Doświadczenie</p>
+                <p className="text-3xl md:text-4xl font-bold text-foreground tabular-nums">
+                  {aboutYou.yearsOfExperience}
+                </p>
+                <p className="text-xs text-foreground/50 uppercase tracking-widest">
+                  Doświadczenie
+                </p>
               </div>
               <div className="w-px h-10 bg-border hidden md:block" />
               <div className="space-y-0.5">
-                <p className="text-3xl md:text-4xl font-bold text-foreground tabular-nums">10+</p>
+                <p className="text-3xl md:text-4xl font-bold text-foreground tabular-nums">15+</p>
                 <p className="text-xs text-foreground/50 uppercase tracking-widest">Projektów</p>
               </div>
               <div className="w-px h-10 bg-border hidden md:block" />
@@ -108,11 +120,11 @@ export default function HeroSection() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.52, duration: 0.5 }}
             >
-              <ActionButton actionText="Hire me" />
+              <ActionButton actionText="Skontaktuj się" />
             </motion.div>
           </motion.div>
 
-          {/* ── RIGHT: sketch photo ── */}
+          {/* RIGHT: sketch photo */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -123,14 +135,17 @@ export default function HeroSection() {
             <div className="absolute bottom-8 left-1/2 -translate-x-1/2 w-72 h-72 rounded-full bg-primary/20 blur-[80px] pointer-events-none" />
             <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-48 h-16 bg-primary/30 blur-2xl rounded-full pointer-events-none" />
 
-            {/* Photo — height tied to the hero section proportionally */}
+            {/* Photo height tied to the hero section proportionally */}
             <div className="relative select-none w-[260px] md:w-[320px] lg:w-[370px] xl:w-[420px] h-[360px] md:h-[440px] lg:h-[510px] xl:h-[580px] p-3">
               <img
                 src="/me/profilowe2.png"
                 alt="Szymon Góral"
                 className="absolute inset-3 w-[calc(100%-1.5rem)] h-[calc(100%-1.5rem)] object-cover object-center"
                 draggable={false}
-                style={{ filter: "drop-shadow(0 0 32px hsl(var(--primary) / 0.35)) drop-shadow(0 8px 24px rgba(0,0,0,0.18))" }}
+                style={{
+                  filter:
+                    "drop-shadow(0 0 32px hsl(var(--primary) / 0.35)) drop-shadow(0 8px 24px rgba(0,0,0,0.18))",
+                }}
               />
             </div>
           </motion.div>

@@ -88,7 +88,7 @@
     background-image: linear-gradient(to right, hsl(var(--primary)), hsl(var(--accent)), hsl(var(--primary)));
   }
 
-  /* In dark mode the heading is plain white — no gradient clip */
+  /* In dark mode the heading is plain white, no gradient clip */
   .dark .text-gradient {
     -webkit-text-fill-color: hsl(0 0% 100%);
     color: hsl(0 0% 100%);
